@@ -10,7 +10,7 @@ jobs:
   build:
     #run project on latest ubuntu
     runs-on: macos-12
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     # Sets project to the test environment
     environment: test
