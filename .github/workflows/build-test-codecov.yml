@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     #run project on latest MacOS
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     # Sets project to the test environment
     environment: test
