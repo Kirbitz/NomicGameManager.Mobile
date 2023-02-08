@@ -8,7 +8,7 @@ on:
     
 jobs:
   build:
-    #run project on latest MacOS
+    #run project on latest ubuntu
     runs-on: ubuntu-latest
 
     # Sets project to the test environment
@@ -31,10 +31,7 @@ jobs:
 
       # Run Tests and Collect Coverage
       - name: Unit Test with Android Emulator Runner
-        uses: ReactiveCircus/android-emulator-runner@v2.14.3
-          with:
-            api-level: 29
-            script: ./gradlew connectedCheck
+        uses: vgaidarji/android-github-actions-emulator@v1.0.1
     
       # Upload Code Coverage to Codecov
       - name: Upload coverage to Codecov
