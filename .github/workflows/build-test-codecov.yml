@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     #run project on latest ubuntu
-    runs-on: macos-11
+    runs-on: macos-12
     timeout-minutes: 5
 
     # Sets project to the test environment
@@ -33,7 +33,7 @@ jobs:
       # Run Tests and Collect Coverage
       - name: Unit Test with Android Emulator Runner
         uses: ReactiveCircus/android-emulator-runner@v2.14.3
-          with:
+        with:
             api-level: 29
             script: ./gradlew connectedCheck
     
