@@ -1,0 +1,19 @@
+# Workflow for testing code and submitting codecov report
+name: Kotlin Linter
+
+on:
+  # Triggers the workflow on push or pull request events
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Sets up the workflow to be run
+      - uses: actions/checkout@v2
+
+      # Lints bad formating for kotlin from code
+      - name: Kotlin Linter
+        uses: vroy/gha-kotlin-linter@v1

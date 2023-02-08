@@ -19,10 +19,6 @@ jobs:
       # Sets up the workflow to be run
       - uses: actions/checkout@v2
 
-      # Lints bad formating for kotlin from code
-      - name: Kotlin Linter
-        uses: vroy/gha-kotlin-linter@v1
-
       # Sets up JDK for JVM
       - name: Set up JDK
         uses: actions/setup-java@v3
