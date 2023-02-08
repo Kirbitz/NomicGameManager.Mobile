@@ -4,7 +4,7 @@ name: Build, Test, and Coverage Report
 on:
   # Triggers the workflow on push or pull request events
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, closed]
     
 jobs:
   build:
@@ -32,6 +32,9 @@ jobs:
       # Install dependencies, run tests, and collect coverage
       - name: Build Gradle
         run: gradle build
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
 
       - name: Unit Test with Android Emulator Runner
         run: ./gradlew connectedCheck
