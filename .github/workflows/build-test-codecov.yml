@@ -26,6 +26,9 @@ jobs:
           distribution: 'temurin'
           java-version: 17
 
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
       # Run Tests and Collect Coverage
       - name: Unit Test with Android Emulator Runner
         uses: ReactiveCircus/android-emulator-runner@v2.14.3
