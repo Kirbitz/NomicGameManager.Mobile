@@ -32,6 +32,12 @@ jobs:
       # Install dependencies, run tests, and collect coverage
       - name: Build Gradle
         run: gradle build
+
+      - name: Unit Test with Android Emulator Runner
+        uses: ReactiveCircus/android-emulator-runner@v2.14.3
+        with:
+          api-level: 29
+          script: ./gradlew connectedCheck
     
       # Upload Code Coverage to Codecov
       - name: Upload coverage to Codecov
