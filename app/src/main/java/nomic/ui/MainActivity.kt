@@ -1,8 +1,9 @@
-package mobile.game.manager.nomic
+package nomic.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import mobile.game.manager.nomic.ui.main.MainFragment
+import mobile.game.manager.nomic.R
+import nomic.ui.fragments.MainFragment
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package mobile.game.manager.nomic.ui.main
+package nomic.ui.fragments
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
