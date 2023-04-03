@@ -2,30 +2,37 @@ package nomic.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.android.volley.toolbox.Volley
+import android.widget.Toast
+import kotlinx.coroutines.*
 import mobile.game.manager.nomic.databinding.ActivityMainBinding
-import nomic.data.services.NomicApiService
+import nomic.data.services.NomicApiRepository
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
+    private val nomicApiRepository by lazy {
+        NomicApiRepository(applicationContext)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, MainFragment.newInstance())
-//                .commitNow()
-//        }
-
-        val queue = Volley.newRequestQueue(applicationContext)
 
         binding.button.setOnClickListener {
-
-            val nomicApiService = NomicApiService()
-            queue.add(nomicApiService.getRulesAmendmentsList())
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val data = nomicApiRepository.getRulesAmendmentsList(2, "Collection").toString()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(applicationContext, data, Toast.LENGTH_LONG).show()
+                    }
+                } catch (exception: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(applicationContext, "Error Happened", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
         }
     }
 }

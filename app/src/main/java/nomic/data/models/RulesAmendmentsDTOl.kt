@@ -1,9 +1,7 @@
 package nomic.data.models
 
-import com.google.gson.annotations.SerializedName
-
 /**
- * The rules and amendments object to be passed back to the caller of the endpoint
+ * The rules and amendments object to be passed back to the caller of the repository
  *
  * @property ruleId the unique if for the rule
  * @property index the position of the rule within the context of a game
@@ -14,22 +12,16 @@ import com.google.gson.annotations.SerializedName
  * @see[nomic.data.models.AmendmentModel]
  */
 data class RulesAmendmentsModel(
-    @SerializedName("ruleId")
     val ruleId: Int,
-    @SerializedName("index")
     val index: Int,
-    @SerializedName("title")
     val title: String,
-    @SerializedName("description")
     val description: String,
-    @SerializedName("mutable")
     val mutable: Boolean,
-    @SerializedName("amendments")
     var amendments: MutableList<AmendmentModel> = mutableListOf()
 )
 
 /**
- * The amendments object to be passed back to the caller of the endpoint
+ * The amendments object to be passed back to the caller of the repository
  *
  * @property amendId the primary key for an amendment
  * @property index the position of an amendment under a rule
