@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import kotlinx.coroutines.*
 import mobile.game.manager.nomic.databinding.ActivityMainBinding
-import nomic.data.services.NomicApiRepository
+import nomic.data.repositories.NomicApiRepository
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null

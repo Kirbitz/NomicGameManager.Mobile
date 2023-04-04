@@ -1,4 +1,4 @@
-package nomic.data.services
+package nomic.data.repositories
 
 import android.content.Context
 import com.android.volley.Request
@@ -10,13 +10,13 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import kotlinx.coroutines.suspendCancellableCoroutine
 import nomic.data.models.ResponseFormatDTO
-import nomic.data.models.RulesAmendmentsModel
+import nomic.data.models.RulesAmendmentsDTO
 import kotlin.coroutines.resumeWithException
 
 /**
- * Implementation of the [INomicApiRepository][nomic.data.services.INomicApiRepository]
+ * Implementation of the [INomicApiRepository][nomic.data.repositories.INomicApiRepository]
  *
- * @see [nomic.data.services.INomicApiRepository]
+ * @see [nomic.data.repositories.INomicApiRepository]
  * @param context the application context of the mobile app page
  */
 class NomicApiRepository(context: Context) : INomicApiRepository {
@@ -24,20 +24,21 @@ class NomicApiRepository(context: Context) : INomicApiRepository {
     private val mapper = ObjectMapper().registerKotlinModule()
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
-    override suspend fun getRulesAmendmentsList(gameId: Int, tag: String): List<RulesAmendmentsModel> {
+    override suspend fun getRulesAmendmentsList(gameId: Int, tag: String): List<RulesAmendmentsDTO> {
         return suspendCancellableCoroutine { continuation ->
             val endpointUrl = "$baseUrl/rules_amendments/collect/$gameId"
             val stringRequest = StringRequest(Request.Method.GET, endpointUrl,
                 { response ->
-                    val responseObject = mapper.readValue<ResponseFormatDTO<List<RulesAmendmentsModel>>>(response)
+                    val responseObject = mapper.readValue<ResponseFormatDTO<List<RulesAmendmentsDTO>>>(response)
                     if (responseObject.success) {
                         continuation.resumeWith(Result.success(responseObject.data))
                     }
+                },
+                { error ->
+                    error.printStackTrace()
+                    continuation.resumeWithException(error)
                 }
-            ) { error ->
-                error.printStackTrace()
-                continuation.resumeWithException(error)
-            }
+            )
             stringRequest.tag = tag
             queue.add(stringRequest)
         }

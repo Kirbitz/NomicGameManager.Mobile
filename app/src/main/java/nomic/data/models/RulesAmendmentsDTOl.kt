@@ -11,7 +11,7 @@ package nomic.data.models
  * @property amendments the list of amendments that are attached to a rule
  * @see[nomic.data.models.AmendmentModel]
  */
-data class RulesAmendmentsModel(
+data class RulesAmendmentsDTO(
     val ruleId: Int,
     val index: Int,
     val title: String,

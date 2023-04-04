@@ -1,6 +1,6 @@
-package nomic.data.services
+package nomic.data.repositories
 
-import nomic.data.models.RulesAmendmentsModel
+import nomic.data.models.RulesAmendmentsDTO
 
 /**
  * Service for api calls to the Nomic API
@@ -12,7 +12,7 @@ interface INomicApiRepository {
      *
      * @param gameId the game Id to collect rules and amendments data on
      * @param tag Identifier for a request made through the Volley Queue
-     * @return The list of [RulesAmendmentsModel][nomic.data.models.RulesAmendmentsModel] objects
+     * @return The list of [RulesAmendmentsModel][nomic.data.models.RulesAmendmentsDTO] objects
      */
-    suspend fun getRulesAmendmentsList(gameId: Int, tag: String): List<RulesAmendmentsModel>
+    suspend fun getRulesAmendmentsList(gameId: Int, tag: String): List<RulesAmendmentsDTO>
 }
