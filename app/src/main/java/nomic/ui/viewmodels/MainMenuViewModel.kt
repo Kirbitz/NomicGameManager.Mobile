@@ -1,0 +1,67 @@
+package nomic.ui.viewmodels
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+
+// This viewmodel needs to offer the following functionality to the UI
+// 1) Retrieve/refresh the list of previous games (On page load or when list is updated) - achieved simply by storing the required data
+// 2) Delete a game(s)
+class MainMenuViewModel(
+    val userId: Int    // This is where the repo will go
+) : ViewModel() {
+    // The private mutable state and the public immutable state
+    private val _uiState = MutableStateFlow(MainMenuUiState(mutableListOf(), userId))
+    val uiState: StateFlow<MainMenuUiState> = _uiState.asStateFlow()
+
+    // initialization
+    init {
+        viewModelScope.launch {
+            loadPreviousGames()
+        }
+    }
+
+    // FUNCTIONALITY
+
+    // Load all of the rules and amendments on initialization
+    fun loadPreviousGames() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                // This is fine for now, but eventually it needs to call the repo
+                // The repo should return a mutable list of some agreed upon model
+                gamesList = mutableListOf()
+            )
+        }
+    }
+
+    fun deleteSelectedGames() {
+        // Insert functionality to delete game(s)
+
+        loadPreviousGames()
+    }
+
+    // This gets called when the ViewModel is destroyed/cleared
+    override fun onCleared() {
+        super.onCleared()
+    }
+}
+
+data class MainMenuUiState(
+    // This is where any top-level state info needs to go
+    val gamesList: MutableList<GameUiState> = mutableListOf(),
+    val userId: Int
+)
+
+data class GameUiState(
+    // This is used to store the state of an individual game
+    val gameId: Int,
+    val title: String,
+    val createDate: LocalDate,
+    val currentPlayer: Int,
+    val userId: Int,
+)

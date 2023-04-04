@@ -1,24 +1,25 @@
 package nomic.ui.fragments
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import mobile.game.manager.nomic.R
+import nomic.ui.viewmodels.MainMenuViewModel
 
-class MainFragment : Fragment() {
+class RecentGamesFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = RecentGamesFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: MainMenuViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MainMenuViewModel::class.java]
         // TODO: Use the ViewModel
     }
 
@@ -27,6 +28,7 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        return inflater.inflate(R.layout.recent_games_main_menu, container, false)
     }
+
 }

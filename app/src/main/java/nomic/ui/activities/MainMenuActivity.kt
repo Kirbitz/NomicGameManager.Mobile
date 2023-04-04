@@ -1,9 +1,8 @@
-package nomic.ui
+package nomic.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import mobile.game.manager.nomic.R
 import mobile.game.manager.nomic.databinding.MainMenuPageBinding
 
 class MainMenuActivity : AppCompatActivity() {
