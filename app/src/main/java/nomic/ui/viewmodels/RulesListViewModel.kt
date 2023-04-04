@@ -1,12 +1,17 @@
 package nomic.ui.viewmodels
 
+import android.app.Application
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import nomic.data.models.RulesAmendmentsDTO
+import nomic.data.repositories.NomicApiRepository
 
 // This viewmodel needs to offer the following functionality to the UI
 // 1) Retrieve/refresh the list of rules (On page load or when list is updated) - achieved simply by storing the required data
@@ -19,12 +24,16 @@ import kotlinx.coroutines.launch
 // 8) Retrieve full details for a rule (IE when the rule is held/long tapped, show details)
 // 9) Load the data on creation (however it's coming from the repo)
 class RulesListViewModel(
-    val gameId: Int
-    // This is where the repo will go
+    val gameId: Int,
+    context: Context
 ) : ViewModel() {
     // The private mutable state and the public immutable state
     private val _uiState = MutableStateFlow(RulesListUiState(mutableListOf(), gameId))
     val uiState: StateFlow<RulesListUiState> = _uiState.asStateFlow()
+
+    private val nomicApiRepository by lazy {
+        NomicApiRepository(context)
+    }
 
     // initialization
     init {
@@ -36,12 +45,12 @@ class RulesListViewModel(
     // FUNCTIONALITY
 
     // Load all of the rules and amendments on initialization
-    fun loadRulesAmendments() {
+    private suspend fun loadRulesAmendments() {
         _uiState.update { currentState ->
             currentState.copy(
                 // This is fine for now, but eventually it needs to call the repo
                 // The repo should return a mutable list of some agreed upon model
-                rulesList = mutableListOf()
+                rulesList = nomicApiRepository.getRulesAmendmentsList(gameId, "loadRulesAmendments") as MutableList<RulesAmendmentsDTO>
             )
         }
     }
@@ -56,7 +65,6 @@ class RulesListViewModel(
         // Call the repo to create the amendment
 
         // Reload the rules and amendments
-        loadRulesAmendments()
     }
 
     // Amend a rule in the local list
@@ -84,22 +92,13 @@ class RulesListViewModel(
 
 data class RulesListUiState(
     // This is where any top-level state info needs to go
-    val rulesList: MutableList<RuleUiState> = mutableListOf(),
+    val rulesList: MutableList<RulesAmendmentsDTO> = mutableListOf(),
     val gameId: Int
 )
 
-data class RuleUiState(
-    // This is used to store the state of an individual rule
-    val ruleId: Int,
-    val index: Int,
-    val title: String,
-    val description: String,
-    val ruleAmendments: MutableList<AmendmentUiState> = mutableListOf()
-)
-
-data class AmendmentUiState(
-    // This is used to store the state of an individual amendment
-    val amendId: Int,
-    val index: Int,
-    val description: String
-)
+class RulesListViewModelFactory(val gameId: Int, val context: Context) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return RulesListViewModel(gameId, context) as T
+    }
+}
