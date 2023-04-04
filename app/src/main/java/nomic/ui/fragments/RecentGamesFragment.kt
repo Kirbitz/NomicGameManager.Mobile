@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import mobile.game.manager.nomic.R
+import nomic.ui.viewmodels.GameUiState
 import nomic.ui.viewmodels.MainMenuViewModel
 
 class RecentGamesFragment : Fragment() {
@@ -16,11 +17,13 @@ class RecentGamesFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainMenuViewModel
+    var gamesList : MutableList<GameUiState> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MainMenuViewModel::class.java]
-        // TODO: Use the ViewModel
+        gamesList = viewModel.loadPreviousGames()
+        val listIterator = gamesList.listIterator()
     }
 
     override fun onCreateView(

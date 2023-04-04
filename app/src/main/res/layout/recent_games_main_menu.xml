@@ -7,12 +7,12 @@
 
     <TextView
         android:id="@+id/tvGameTitle"
-        android:layout_width="262dp"
-        android:layout_height="36dp"
+        android:layout_width="321dp"
+        android:layout_height="34dp"
         android:text="Example"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cbDone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnPlay"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.171" />
@@ -26,22 +26,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/cbDone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/tvCreatedDate"
-        android:layout_width="263dp"
-        android:layout_height="23dp"
+        android:layout_width="320dp"
+        android:layout_height="29dp"
         android:layout_marginBottom="4dp"
         android:text="Created: Example"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cbDone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnPlay"
         app:layout_constraintTop_toBottomOf="@+id/tvGameTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

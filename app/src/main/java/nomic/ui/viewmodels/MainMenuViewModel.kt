@@ -11,7 +11,6 @@ import java.time.LocalDate
 
 // This viewmodel needs to offer the following functionality to the UI
 // 1) Retrieve/refresh the list of previous games (On page load or when list is updated) - achieved simply by storing the required data
-// 2) Delete a game(s)
 class MainMenuViewModel(
     val userId: Int    // This is where the repo will go
 ) : ViewModel() {
@@ -37,12 +36,6 @@ class MainMenuViewModel(
                 gamesList = mutableListOf()
             )
         }
-    }
-
-    fun deleteSelectedGames() {
-        // Insert functionality to delete game(s)
-
-        loadPreviousGames()
     }
 
     // This gets called when the ViewModel is destroyed/cleared
