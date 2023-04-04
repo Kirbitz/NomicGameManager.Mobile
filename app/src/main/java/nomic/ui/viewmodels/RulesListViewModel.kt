@@ -1,10 +1,12 @@
 package nomic.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 // This viewmodel needs to offer the following functionality to the UI
 // 1) Retrieve/refresh the list of rules (On page load or when list is updated) - achieved simply by storing the required data
@@ -24,9 +26,16 @@ class RulesListViewModel(
     private val _uiState = MutableStateFlow(RulesListUiState(mutableListOf(), gameId))
     val uiState: StateFlow<RulesListUiState> = _uiState.asStateFlow()
 
+    // initialization
+    init {
+        viewModelScope.launch {
+            loadRulesAmendments()
+        }
+    }
+
     // FUNCTIONALITY
 
-    //
+    // Load all of the rules and amendments on initialization
     fun loadRulesAmendments() {
         _uiState.update { currentState ->
             currentState.copy(
@@ -37,6 +46,7 @@ class RulesListViewModel(
         }
     }
 
+    // Update the rules and amendments list (not clear what that means yet)
     fun updateRulesAmendments() {
 
     }
@@ -49,6 +59,7 @@ class RulesListViewModel(
         loadRulesAmendments()
     }
 
+    // Amend a rule in the local list
     fun amendRule(ruleId: Int, index: Int, description: String) {
 
     }
@@ -63,6 +74,11 @@ class RulesListViewModel(
 
     fun transmuteRule(ruleId: Int) {
 
+    }
+
+    // This gets called when the ViewModel is destroyed/cleared
+    override fun onCleared() {
+        super.onCleared()
     }
 }
 
