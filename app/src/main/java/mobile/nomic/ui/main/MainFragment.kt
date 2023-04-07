@@ -1,4 +1,4 @@
-package mobile.game.manager.nomic.ui.main
+package mobile.nomic.ui.main
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import mobile.game.manager.nomic.R
+import mobile.nomic.R
 
 class MainFragment : Fragment() {
 

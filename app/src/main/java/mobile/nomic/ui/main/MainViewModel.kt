@@ -1,4 +1,4 @@
-package mobile.game.manager.nomic.ui.main
+package mobile.nomic.ui.main
 
 import androidx.lifecycle.ViewModel
 

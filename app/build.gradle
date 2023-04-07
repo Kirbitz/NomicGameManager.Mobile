@@ -23,11 +23,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 }
 
 android {
-    namespace 'mobile.game.manager.nomic'
+    namespace 'mobile.nomic'
     compileSdk 33
 
     defaultConfig {
-        applicationId "mobile.game.manager.nomic"
+        applicationId "mobile.nomic"
         minSdk 29
         targetSdk 33
         versionCode 1

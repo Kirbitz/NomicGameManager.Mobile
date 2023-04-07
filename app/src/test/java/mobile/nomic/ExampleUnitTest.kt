@@ -1,4 +1,4 @@
-package mobile.game.manager.nomic
+package mobile.nomic
 
 import org.junit.Test
 
