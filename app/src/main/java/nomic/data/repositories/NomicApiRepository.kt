@@ -10,10 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import kotlinx.coroutines.suspendCancellableCoroutine
-import nomic.data.models.GameDTO
-import nomic.data.models.ResponseFormatDTO
-import nomic.data.models.RuleDTO
-import nomic.data.models.RulesAmendmentsDTO
+import nomic.data.models.*
 import org.json.JSONObject
 import kotlin.coroutines.resumeWithException
 
@@ -95,6 +92,27 @@ class NomicApiRepository(context: Context) : INomicApiRepository {
         return suspendCancellableCoroutine { continuation ->
             val endpointUrl = "$baseUrl/rules_amendments/transmute_rule/$ruleId"
             val jsonData = JSONObject("{ mutableInput: $mutable}")
+            val jsonRequest = JsonObjectRequest(Request.Method.POST, endpointUrl, jsonData,
+                { response ->
+                    val responseObject = mapper.readValue<ResponseFormatDTO<String>>(response.toString())
+                    if (responseObject.success) {
+                        continuation.resumeWith(Result.success(responseObject.data))
+                    }
+                },
+                { error ->
+                    error.printStackTrace()
+                    continuation.resumeWithException(error)
+                }
+            )
+            jsonRequest.tag = tag
+            queue.add(jsonRequest)
+        }
+    }
+
+    override suspend fun amendRule(newAmendment: AmendmentDTO, tag: String): String {
+        return suspendCancellableCoroutine { continuation ->
+            val endpointUrl = "$baseUrl/rules_amendments/enactAmendment"
+            val jsonData = JSONObject(mapper.writeValueAsString(newAmendment))
             val jsonRequest = JsonObjectRequest(Request.Method.POST, endpointUrl, jsonData,
                 { response ->
                     val responseObject = mapper.readValue<ResponseFormatDTO<String>>(response.toString())
