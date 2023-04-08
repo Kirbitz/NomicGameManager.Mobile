@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import kotlinx.coroutines.suspendCancellableCoroutine
+import nomic.data.models.GameDTO
 import nomic.data.models.ResponseFormatDTO
 import nomic.data.models.RuleDTO
 import nomic.data.models.RulesAmendmentsDTO
@@ -47,13 +48,11 @@ class NomicApiRepository(context: Context) : INomicApiRepository {
         }
     }
 
-    // TODO look into why post route are throwing 401
-    // This is also occurring on post man calls
     override suspend fun enactRule(newRule: RuleDTO, tag: String): String {
         return suspendCancellableCoroutine { continuation ->
             val endpointUrl = "$baseUrl/rules_amendments/enactRule"
             val jsonData = JSONObject(mapper.writeValueAsString(newRule))
-            val stringRequest = JsonObjectRequest(Request.Method.POST, endpointUrl, jsonData,
+            val jsonRequest = JsonObjectRequest(Request.Method.POST, endpointUrl, jsonData,
                 { response ->
                     val responseObject = mapper.readValue<ResponseFormatDTO<String>>(response.toString())
                     if (responseObject.success) {
@@ -65,8 +64,8 @@ class NomicApiRepository(context: Context) : INomicApiRepository {
                     continuation.resumeWithException(error)
                 }
             )
-            stringRequest.tag = tag
-            queue.add(stringRequest)
+            jsonRequest.tag = tag
+            queue.add(jsonRequest)
         }
     }
 
@@ -87,6 +86,70 @@ class NomicApiRepository(context: Context) : INomicApiRepository {
             )
             stringRequest.tag = tag
             queue.add(stringRequest)
+        }
+    }
+
+    // TODO there is an issue with this endpoint that may result in a rewrite
+    // of the actual endpoint
+    override suspend fun transmuteRule(ruleId: Int, mutable: Boolean, tag: String): String {
+        return suspendCancellableCoroutine { continuation ->
+            val endpointUrl = "$baseUrl/rules_amendments/transmute_rule/$ruleId"
+            val jsonData = JSONObject("{ mutableInput: $mutable}")
+            val jsonRequest = JsonObjectRequest(Request.Method.POST, endpointUrl, jsonData,
+                { response ->
+                    val responseObject = mapper.readValue<ResponseFormatDTO<String>>(response.toString())
+                    if (responseObject.success) {
+                        continuation.resumeWith(Result.success(responseObject.data))
+                    }
+                },
+                { error ->
+                    error.printStackTrace()
+                    continuation.resumeWithException(error)
+                }
+            )
+            jsonRequest.tag = tag
+            queue.add(jsonRequest)
+        }
+    }
+
+    override suspend fun repealAmendment(amendId: Int, tag: String): String {
+        return suspendCancellableCoroutine { continuation ->
+            val endpointUrl = "$baseUrl/rules_amendments/repeal_amendment/$amendId"
+            val stringRequest = StringRequest(Request.Method.GET, endpointUrl,
+                { response ->
+                    val responseObject = mapper.readValue<ResponseFormatDTO<String>>(response)
+                    if (responseObject.success) {
+                        continuation.resumeWith(Result.success(responseObject.data))
+                    }
+                },
+                { error ->
+                    error.printStackTrace()
+                    continuation.resumeWithException(error)
+                }
+            )
+            stringRequest.tag = tag
+            queue.add(stringRequest)
+        }
+    }
+
+    override suspend fun createGame(newGame: GameDTO, tag: String): String {
+        return suspendCancellableCoroutine { continuation ->
+            val endpointUrl = "$baseUrl/game/create"
+            val jsonData = JSONObject(mapper.writeValueAsString(newGame))
+            val jsonRequest = JsonObjectRequest(Request.Method.POST, endpointUrl, jsonData,
+                { response ->
+                    val responseObject = mapper.readValue<ResponseFormatDTO<String>>(response.toString())
+                    if (responseObject.success) {
+                        continuation.resumeWith(Result.success(responseObject.data))
+                    }
+                },
+                { error ->
+                    error.printStackTrace()
+                    continuation.resumeWithException(error)
+                }
+            )
+            jsonRequest.tag = tag
+            queue.add(jsonRequest)
         }
     }
 

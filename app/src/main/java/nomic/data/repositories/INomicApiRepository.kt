@@ -1,5 +1,6 @@
 package nomic.data.repositories
 
+import nomic.data.models.GameDTO
 import nomic.data.models.RuleDTO
 import nomic.data.models.RulesAmendmentsDTO
 
@@ -34,4 +35,32 @@ interface INomicApiRepository {
      * @return String that signifies the rule was repealed
      */
     suspend fun repealRule(ruleId: Int, tag: String): String
+
+    /**
+     * Sends rule data to be repealed to the Nomic API
+     *
+     * @param ruleId the rule Id to repeal from the database
+     * @param mutable the flag to update the rules mutability to
+     * @param tag Identifier for a request made through the Volley Queue
+     * @return String that signifies the rule was repealed
+     */
+    suspend fun transmuteRule(ruleId: Int, mutable: Boolean, tag: String): String
+
+    /**
+     * Sends rule data to be repealed to the Nomic API
+     *
+     * @param amendId the rule Id to repeal from the database
+     * @param tag Identifier for a request made through the Volley Queue
+     * @return String that signifies the rule was repealed
+     */
+    suspend fun repealAmendment(amendId: Int, tag: String): String
+
+    /**
+     * Sends rule data to be repealed to the Nomic API
+     *
+     * @param newGame the game data to be sent to the Nomic API
+     * @param tag Identifier for a request made through the Volley Queue
+     * @return String that signifies the rule was repealed
+     */
+    suspend fun createGame(newGame: GameDTO, tag: String): String
 }

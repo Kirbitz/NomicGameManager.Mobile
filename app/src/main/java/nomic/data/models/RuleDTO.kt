@@ -5,7 +5,7 @@ data class RuleDTO(
     val index: Int,
     val description: String,
     val title: String,
-    val gameId: Int,
+    val gameID: Int,
     val active: Boolean,
     val mutable: Boolean
 )
