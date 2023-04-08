@@ -10,7 +10,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import kotlinx.coroutines.suspendCancellableCoroutine
-import nomic.data.models.*
+import nomic.data.models.AmendmentDTO
+import nomic.data.models.GameDTO
+import nomic.data.models.ResponseFormatDTO
+import nomic.data.models.RuleDTO
+import nomic.data.models.RulesAmendmentsDTO
 import org.json.JSONObject
 import kotlin.coroutines.resumeWithException
 
