@@ -6,7 +6,7 @@ import nomic.data.models.RuleDTO
 import nomic.data.models.RulesAmendmentsDTO
 
 /**
- * Service for api calls to the Nomic API
+ * Repository for API calls to the Nomic API
  */
 interface INomicApiRepository {
 
