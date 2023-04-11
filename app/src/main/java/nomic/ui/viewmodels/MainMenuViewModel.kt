@@ -1,12 +1,15 @@
 package nomic.ui.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import nomic.data.models.GameDTO
 import java.time.LocalDate
 
 // This viewmodel needs to offer the following functionality to the UI
@@ -46,15 +49,13 @@ class MainMenuViewModel(
 
 data class MainMenuUiState(
     // This is where any top-level state info needs to go
-    val gamesList: MutableList<GameUiState> = mutableListOf(),
+    val gamesList: MutableList<GameDTO> = mutableListOf(),
     val userId: Int
 )
 
-data class GameUiState(
-    // This is used to store the state of an individual game
-    val gameId: Int,
-    val title: String,
-    val createDate: LocalDate,
-    val currentPlayer: Int,
-    val userId: Int,
-)
+class MainMenuViewModelFactory(val userId: Int, val context: Context) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return RulesListViewModel(userId, context) as T
+    }
+}
