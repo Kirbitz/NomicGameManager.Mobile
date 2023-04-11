@@ -8,14 +8,11 @@ import mobile.game.manager.nomic.R
 
 
 class IntialPlayersListAdapter(
-    val IntialPlayers: Array<String>):
+    val IntialPlayers: MutableList<String>):
     RecyclerView.Adapter<IntialPlayersListAdapter.ViewHolder>(){
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val textView: TextView
-            init {
-                textView = view.findViewById(R.id.rvIntialPlayers)
-            }
+        val text: TextView = view.findViewById(R.id.tvIPItem)
 
     }
 
@@ -27,7 +24,7 @@ class IntialPlayersListAdapter(
         return IntialPlayers.size
     }
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int){
-        viewHolder.textView.text = IntialPlayers [position]
+        viewHolder.text.text = IntialPlayers [position]
 
     }
 }
