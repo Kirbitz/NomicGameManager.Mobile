@@ -10,11 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import kotlinx.coroutines.suspendCancellableCoroutine
-import nomic.data.models.AmendmentDTO
-import nomic.data.models.GameDTO
-import nomic.data.models.ResponseFormatDTO
-import nomic.data.models.RuleDTO
-import nomic.data.models.RulesAmendmentsDTO
+import nomic.data.models.*
 import org.json.JSONObject
 import kotlin.coroutines.resumeWithException
 
@@ -90,12 +86,10 @@ class NomicApiRepository(context: Context) : INomicApiRepository {
         }
     }
 
-    // TODO there is an issue with this endpoint that may result in a rewrite
-    // of the actual endpoint
-    override suspend fun transmuteRule(ruleId: Int, mutable: Boolean, tag: String): String {
+    override suspend fun transmuteRule(ruleId: Int, mutable: MutableRuleDTO, tag: String): String {
         return suspendCancellableCoroutine { continuation ->
             val endpointUrl = "$baseUrl/rules_amendments/transmute_rule/$ruleId"
-            val jsonData = JSONObject("{ mutableInput: $mutable}")
+            val jsonData = JSONObject(mapper.writeValueAsString(mutable))
             val jsonRequest = JsonObjectRequest(Request.Method.POST, endpointUrl, jsonData,
                 { response ->
                     val responseObject = mapper.readValue<ResponseFormatDTO<String>>(response.toString())
