@@ -7,7 +7,9 @@
     tools:context="nomic.ui.activities.RulesListActivity" >
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rule_recycler"
         android:layout_width="match_parent"
-        android:layout_height="667dp" >
+        android:layout_height="match_parent">
+
     </androidx.recyclerview.widget.RecyclerView>
 </FrameLayout>

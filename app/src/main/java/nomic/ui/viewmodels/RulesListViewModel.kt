@@ -31,7 +31,7 @@ class RulesListViewModel(
     val uiState: StateFlow<RulesListUiState> = _uiState.asStateFlow()
 
     private val nomicApiRepository by lazy {
-        NomicApiRepository(context)
+        // NomicApiRepository(context)
     }
 
     // initialization
@@ -49,7 +49,7 @@ class RulesListViewModel(
             currentState.copy(
                 // This is fine for now, but eventually it needs to call the repo
                 // The repo should return a mutable list of some agreed upon model
-                rulesList = nomicApiRepository.getRulesAmendmentsList(gameId, "loadRulesAmendments") as MutableList<RulesAmendmentsDTO>
+                // rulesList = nomicApiRepository.getRulesAmendmentsList(gameId, "loadRulesAmendments") as MutableList<RulesAmendmentsDTO>
             )
         }
     }
