@@ -1,6 +1,11 @@
 package nomic.data.repositories
 
-import nomic.data.models.*
+import nomic.data.models.AmendmentDTO
+import nomic.data.models.GameDTO
+import nomic.data.models.MutableRuleDTO
+import nomic.data.models.RuleDTO
+import nomic.data.models.RulesAmendmentsDTO
+
 
 /**
  * Repository for API calls to the Nomic API

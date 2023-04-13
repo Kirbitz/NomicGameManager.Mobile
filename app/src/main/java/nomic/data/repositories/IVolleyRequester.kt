@@ -16,7 +16,7 @@ interface IVolleyRequester {
      * @param tag an attribute for [RequestQueue] that allows it to be canceled later
      * @return Generic type based on the data in the return body
      */
-    suspend fun<T> stringRequest(url: String, tag: String): T
+    suspend fun <T> stringRequest(url: String, tag: String): T
 
     /**
      * Sets up a post style request to be sent to the Nomic API
@@ -26,5 +26,5 @@ interface IVolleyRequester {
      * @param tag an attribute for [RequestQueue] that allows it to be canceled later
      * @return Generic type based on the data in the return body
      */
-    suspend fun<I, O> jsonObjectRequest(url: String, data: I, tag: String): O
+    suspend fun <I, O> jsonObjectRequest(url: String, data: I, tag: String): O
 }

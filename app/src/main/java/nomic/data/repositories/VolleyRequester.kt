@@ -23,7 +23,7 @@ class VolleyRequester(context: Context) : IVolleyRequester {
     private val mapper = ObjectMapper().registerKotlinModule()
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
-    override suspend fun<T> stringRequest(url: String, tag: String): T {
+    override suspend fun <T> stringRequest(url: String, tag: String): T {
         return suspendCancellableCoroutine { continuation ->
             val stringRequest = StringRequest(
                 Request.Method.GET, url,
@@ -50,7 +50,7 @@ class VolleyRequester(context: Context) : IVolleyRequester {
         }
     }
 
-    override suspend fun<I, O> jsonObjectRequest(url: String, data: I, tag: String): O {
+    override suspend fun <I, O> jsonObjectRequest(url: String, data: I, tag: String): O {
         return suspendCancellableCoroutine { continuation ->
             val jsonData = JSONObject(mapper.writeValueAsString(data))
             val jsonRequest = JsonObjectRequest(
