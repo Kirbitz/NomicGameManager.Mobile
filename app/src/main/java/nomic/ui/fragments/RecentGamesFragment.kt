@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import mobile.game.manager.nomic.R
 import mobile.game.manager.nomic.databinding.FragmentRecentgamesBinding
 import nomic.data.models.GameDTO
 import nomic.ui.viewmodels.MainMenuViewModel
@@ -33,36 +32,34 @@ class RecentGamesFragment : Fragment() {
         _binding = FragmentRecentgamesBinding.inflate(inflater, container, false)
         return binding.root
     }
+}
 
-    class RecentGamesAdapter(
-        private val games: MutableList<GameDTO>
-    ) : RecyclerView.Adapter<RecentGamesAdapter.RecentGamesViewHolder>() {
+class RecentGameAdapter(
+    private val games: MutableList<GameDTO>
+) : RecyclerView.Adapter<RecentGameAdapter.RecentGameViewHolder>() {
 
+    private lateinit var _binding: FragmentRecentgamesBinding
+    private val binding get() = _binding
 
-        class RecentGamesViewHolder(gameView: View) : RecyclerView.ViewHolder(gameView)
+    class RecentGameViewHolder(private val binding: FragmentRecentgamesBinding) : RecyclerView.ViewHolder(binding.root)
 
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ): RecentGamesViewHolder {
-            return RecentGamesViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.fragment_recentgames,
-                    parent,
-                    false
-                )
-            )
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentGameViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = FragmentRecentgamesBinding.inflate(layoutInflater, parent, false)
+        return RecentGameViewHolder(binding)
+    }
 
-        override fun onBindViewHolder(
-            holder: RecentGamesAdapter.RecentGamesViewHolder,
-            position: Int
-        ) {
-            TODO("Not yet implemented")
-        }
+    override fun getItemCount(): Int {
+        return games.size
+    }
 
-        override fun getItemCount(): Int {
-            TODO("Not yet implemented")
+    override fun onBindViewHolder(holder: RecentGameViewHolder, position: Int) {
+
+        val curGame = games[position]
+        holder.itemView.apply {
+            binding.tvGameTitle.text = curGame.title
+            binding.tvCreatedDate.text = curGame.createDate.toString()
         }
     }
+
 }
