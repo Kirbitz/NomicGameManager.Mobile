@@ -9,7 +9,11 @@ import nomic.data.models.RulesAmendmentsDTO
 import nomic.mobile.R
 
 class RulesListRecyclerAdapter : RecyclerView.Adapter<RulesListRecyclerAdapter.ViewHolder>() {
-    private val data : MutableList<RulesAmendmentsDTO> = mutableListOf()
+    private val data = arrayOf(
+        RulesAmendmentsDTO(1, 1, "Test","", false),
+        RulesAmendmentsDTO(2, 2, "Food", "", false),
+        RulesAmendmentsDTO(3, 3, "Drink", "", false)
+    )
 
     // holds views?
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
