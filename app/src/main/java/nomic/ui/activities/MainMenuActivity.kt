@@ -1,5 +1,6 @@
 package nomic.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 import mobile.game.manager.nomic.databinding.MainMenuPageBinding
 import nomic.ui.viewmodels.MainMenuViewModel
 import nomic.ui.viewmodels.MainMenuViewModelFactory
+import nomic.ui.viewmodels.RulesListViewModel
 
 class MainMenuActivity : AppCompatActivity() {
 
@@ -40,7 +42,8 @@ class MainMenuActivity : AppCompatActivity() {
         }
 
         binding.btnLoadGame.setOnClickListener {
-            Log.d("Load Game", "Hello")
+            val intent = Intent(this, RulesListActivity::class.java)
+            startActivity(intent)
         }
     }
 }
