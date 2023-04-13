@@ -78,6 +78,11 @@ class VolleyRequester(context: Context) : IVolleyRequester {
         }
     }
 
+    /**
+     * Cancels all requests that are identified by tag
+     *
+     * @param tag the identifier of requests in the queue
+     */
     fun cancelRequests(tag: String) {
         queue.cancelAll(tag)
     }
