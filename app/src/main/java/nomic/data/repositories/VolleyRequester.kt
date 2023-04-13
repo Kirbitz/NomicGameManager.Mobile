@@ -35,7 +35,14 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                 },
                 { error ->
                     error.printStackTrace()
-                    continuation.resumeWithException(error)
+                    val statusCode = error.networkResponse.statusCode
+                    var exception = Exception(error.message)
+                    when (statusCode) {
+                        400 -> exception = IllegalArgumentException(error.message)
+                        404 -> exception = EntityNotFoundException()
+                        else -> {}
+                    }
+                    continuation.resumeWithException(exception)
                 }
             )
             stringRequest.tag = tag
@@ -56,7 +63,14 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                 },
                 { error ->
                     error.printStackTrace()
-                    continuation.resumeWithException(error)
+                    val statusCode = error.networkResponse.statusCode
+                    var exception = Exception(error.message)
+                    when (statusCode) {
+                        400 -> exception = IllegalArgumentException(error.message)
+                        404 -> exception = EntityNotFoundException()
+                        else -> {}
+                    }
+                    continuation.resumeWithException(exception)
                 }
             )
             jsonRequest.tag = tag
