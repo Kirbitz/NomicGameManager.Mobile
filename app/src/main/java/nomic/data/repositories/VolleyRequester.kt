@@ -1,7 +1,7 @@
 package nomic.data.repositories
 
 import android.content.Context
-import com.android.volley.Request
+import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
@@ -25,8 +25,8 @@ class VolleyRequester(context: Context) : IVolleyRequester {
 
     override suspend fun <T> stringRequest(url: String, tag: String): T {
         return suspendCancellableCoroutine { continuation ->
-            val stringRequest = StringRequest(
-                Request.Method.GET, url,
+            val stringRequest = object : StringRequest(
+                Method.GET, url,
                 { response ->
                     val responseObject = mapper.readValue<ResponseFormatDTO<T>>(response)
                     if (responseObject.success) {
@@ -35,7 +35,7 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                 },
                 { error ->
                     error.printStackTrace()
-                    val statusCode = error.networkResponse.statusCode
+                    val statusCode = error.networkResponse?.statusCode
                     var exception = Exception(error.message)
                     when (statusCode) {
                         400 -> exception = IllegalArgumentException(error.message)
@@ -45,6 +45,20 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                     continuation.resumeWithException(exception)
                 }
             )
+            {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): MutableMap<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Authorization"] = "Test"
+                    try {
+                        headers.putAll(super.getHeaders())
+                    }
+                    catch (exception: Exception) {
+                        exception.printStackTrace()
+                    }
+                    return headers
+                }
+            }
             stringRequest.tag = tag
             queue.add(stringRequest)
         }
@@ -53,8 +67,8 @@ class VolleyRequester(context: Context) : IVolleyRequester {
     override suspend fun <I, O> jsonObjectRequest(url: String, data: I, tag: String): O {
         return suspendCancellableCoroutine { continuation ->
             val jsonData = JSONObject(mapper.writeValueAsString(data))
-            val jsonRequest = JsonObjectRequest(
-                Request.Method.POST, url, jsonData,
+            val jsonRequest = object: JsonObjectRequest(
+                Method.POST, url, jsonData,
                 { response ->
                     val responseObject = mapper.readValue<ResponseFormatDTO<O>>(response.toString())
                     if (responseObject.success) {
@@ -63,7 +77,7 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                 },
                 { error ->
                     error.printStackTrace()
-                    val statusCode = error.networkResponse.statusCode
+                    val statusCode = error.networkResponse?.statusCode
                     var exception = Exception(error.message)
                     when (statusCode) {
                         400 -> exception = IllegalArgumentException(error.message)
@@ -71,8 +85,22 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                         else -> {}
                     }
                     continuation.resumeWithException(exception)
-                }
+                },
             )
+            {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): MutableMap<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Authorization"] = "Test"
+                    try {
+                        headers.putAll(super.getHeaders())
+                    }
+                    catch (exception: Exception) {
+                        exception.printStackTrace()
+                    }
+                    return headers
+                }
+            }
             jsonRequest.tag = tag
             queue.add(jsonRequest)
         }
