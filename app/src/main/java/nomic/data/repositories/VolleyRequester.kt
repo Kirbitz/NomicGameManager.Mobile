@@ -85,7 +85,7 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                         else -> {}
                     }
                     continuation.resumeWithException(exception)
-                },
+                }
             )
             {
                 @Throws(AuthFailureError::class)

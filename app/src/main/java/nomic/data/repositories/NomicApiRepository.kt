@@ -5,6 +5,7 @@ import nomic.data.models.GameDTO
 import nomic.data.models.MutableRuleDTO
 import nomic.data.models.RuleDTO
 import nomic.data.models.RulesAmendmentsDTO
+import nomic.mobile.BuildConfig
 
 /**
  * Implementation of the [INomicApiRepository][nomic.data.repositories.INomicApiRepository]
@@ -12,7 +13,7 @@ import nomic.data.models.RulesAmendmentsDTO
  * @see [nomic.data.repositories.INomicApiRepository]
  */
 class NomicApiRepository(private val volleyRequester: VolleyRequester) : INomicApiRepository {
-    private val baseUrl: String = "http://10.0.2.2:8080/api"
+    private val baseUrl: String = BuildConfig.SERVER_ROOT_URI
 
     override suspend fun getRulesAmendmentsList(gameId: Int, tag: String): List<RulesAmendmentsDTO> {
         val endpointUrl = "$baseUrl/rules_amendments/collect/$gameId"
