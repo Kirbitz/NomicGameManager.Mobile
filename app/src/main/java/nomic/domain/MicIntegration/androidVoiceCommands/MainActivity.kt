@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private var ttsInitialized = false
     private val queuedTTS = PriorityQueue<String>()
+    private var source = 0
 
     /**
      * Define a TextToSpeech engine to use for text-to-speech
@@ -139,49 +140,66 @@ class MainActivity : AppCompatActivity() {
      * Runs if TTS is activated
      */
     fun processSpeech(data: Bundle) {
-        if (data != null) {
-            val result = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-            Log.i("processSpeech", "Result: ${result == null}")
-            result?.let {
-                val recognizedText = it[0]
-                Log.i("processSpeech", recognizedText)
+        speechRecognizer.stopListening()
+        val result = data.getStringArrayList(android.speech.SpeechRecognizer.RESULTS_RECOGNITION)
+        Log.i("processSpeech", "Result: ${result == null}")
 
-                // Check if recognized text matches any command
+        result?.let {
+            val recognizedText = it[0]
+            Log.i("processSpeech", recognizedText)
+
+            if (source == 0) {
+                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                    putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                    putExtra(RecognizerIntent.EXTRA_PROMPT, "Say something")
+                }
                 when {
                     processRecognizedText(recognizedText, "Search rule") -> {
-                        val userResponse = getTextFromUser()
-                        if (processResponseText(userResponse)) {
-                            // user has confirmed the action, run command
-                        }
+                        source = 1
+                        speechRecognizer.startListening(intent)
                     }
                     processRecognizedText(recognizedText, "New rule") -> {
-                        // Call the Google Cloud Speech-to-Text API to prompt the user for a response
-                        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                            putExtra(RecognizerIntent.EXTRA_PROMPT, "Say something")
-                        }
+                        source = 2
                         speechRecognizer.startListening(intent)
-                        Log.i("debug", intent.toString())
-                        Log.i("debug", speechRecognizer.toString())
-                        if (processResponseText(recognizedText)) {
-                            // user has confirmed the action, run command
-                        }
                     }
                     processRecognizedText(recognizedText, "Delete rule") -> {
-                        if(processResponseText(recognizedText)) {
-                           // user has confirmed the action, run command
-                        }
+                        source = 3
+                        speechRecognizer.startListening(intent)
                     }
                     processRecognizedText(recognizedText, "Edit rule") -> {
-                        if (processResponseText(recognizedText)) {
-                            // user has confirmed the action, run command
-                            }
-                        }
+                        source = 4
+                        speechRecognizer.startListening(intent)
+                    }
                     else -> {
                         textToSpeech("Sorry, Please try again.") {}
                     }
                 }
+
+            } else {
+                // Run confirmation
+                if (processResponseText(recognizedText)) {
+                    when (source) {
+                        1 -> {
+                            // Search Rule
+                            Log.i("debug", "1")
+                        }
+                        2 -> {
+                            // New Rule
+                            Log.i("debug", "2")
+                        }
+                        3 -> {
+                            // Delete Rule
+                            Log.i("debug", "3")
+                        }
+                        4 -> {
+                            // Edit Rule
+                            Log.i("debug", "4")
+                        }
+                    }
+                }
+                source = 0
             }
+
         }
     }
 
@@ -241,7 +259,7 @@ class SpeechRecognizer(private val activity: MainActivity) : RecognitionListener
     }
 
     override fun onRmsChanged(p0: Float) {
-        Log.i("Speech Recognizer","On RMS CHanged")
+        Log.i("Speech Recognizer","On RMS Changed")
     }
 
     override fun onBufferReceived(p0: ByteArray?) {
@@ -260,6 +278,8 @@ class SpeechRecognizer(private val activity: MainActivity) : RecognitionListener
     override fun onResults(bundle: Bundle?) {
         Log.i("Speech Recognizer","On Results")
         if (bundle == null) return
+        Log.i("debug", bundle.toString())
+        Log.i("onResults", "call processSpeech")
         activity.processSpeech(bundle)
     }
 
