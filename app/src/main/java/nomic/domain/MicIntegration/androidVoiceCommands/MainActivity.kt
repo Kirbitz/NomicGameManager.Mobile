@@ -1,4 +1,4 @@
-package com.example.pleasework
+package nomic.domain.MicIntegration.androidVoiceCommands
 
 import android.Manifest.permission.RECORD_AUDIO
 import android.content.Intent
