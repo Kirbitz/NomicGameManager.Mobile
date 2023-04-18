@@ -27,6 +27,9 @@ class MainActivity : AppCompatActivity() {
 
     private var ttsInitialized = false
     private val queuedTTS = PriorityQueue<String>()
+
+    // source is used to know where speechRecognizer.listen() was called
+    // so processResponse can handle it properly
     private var source = 0
 
     /**
@@ -138,6 +141,9 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Runs if TTS is activated
+     * Checks the global source variable to see where the call is from. If source is 0 it is
+     * listening for one of the commands in the first switch case. If source is not 0
+     * it is checking for confirmation before executing the desired command
      */
     fun processSpeech(data: Bundle) {
         speechRecognizer.stopListening()
