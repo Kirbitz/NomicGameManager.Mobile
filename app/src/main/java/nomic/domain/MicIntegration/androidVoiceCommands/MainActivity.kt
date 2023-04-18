@@ -152,7 +152,6 @@ class MainActivity : AppCompatActivity() {
                         val userResponse = getTextFromUser()
                         if (processResponseText(userResponse)) {
                             // user has confirmed the action, run command
-                            Log.i("processSpeech", recognizedText)
                         }
                     }
                     processRecognizedText(recognizedText, "New rule") -> {
