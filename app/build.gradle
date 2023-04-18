@@ -71,6 +71,11 @@ android {
             jacoco.excludes = ['jdk.internal.*']
         }
     }
+
+    packagingOptions {
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/NOTICE.md")
+    }
 }
 
 dependencies {
