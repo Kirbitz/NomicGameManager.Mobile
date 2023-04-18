@@ -54,8 +54,7 @@ class MainMenuActivity : AppCompatActivity() {
         }
 
         binding.btnLoadGame.setOnClickListener {
-            val intent = Intent(this, RulesListActivity::class.java)
-            startActivity(intent)
+            Log.d("Load Game", "Hello")
         }
     }
 }

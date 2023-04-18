@@ -22,7 +22,6 @@
             </intent-filter>
         </activity>
         <activity android:name="nomic.ui.activities.MainMenuActivity" />
-        <activity android:name="nomic.ui.activities.RulesListActivity" />
     </application>
 
 </manifest>

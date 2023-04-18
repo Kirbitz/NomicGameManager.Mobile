@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import mobile.game.manager.nomic.databinding.ActivityMainBinding
 import nomic.ui.activities.MainMenuActivity
-import nomic.ui.activities.RulesListActivity
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
