@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import mobile.game.manager.nomic.R
 import mobile.game.manager.nomic.databinding.MainMenuPageBinding
-import nomic.ui.fragments.RecentGameAdapter
-import nomic.ui.fragments.RecentGamesFragment
+import nomic.ui.utils.RecentGamesAdapter
 import nomic.ui.viewmodels.MainMenuViewModel
 import nomic.ui.viewmodels.MainMenuViewModelFactory
 
@@ -22,18 +22,22 @@ class MainMenuActivity : AppCompatActivity() {
 
     private var _binding: MainMenuPageBinding? = null
     private val binding get() = _binding!!
-    private lateinit var recentGamesAdapter: RecentGameAdapter
+    private lateinit var recentGamesAdapter: RecentGamesAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = MainMenuPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-        replaceFragment(RecentGamesFragment())
+        //replaceFragment(RecentGamesFragment())
 
         val viewModel: MainMenuViewModel by viewModels { MainMenuViewModelFactory(2, this) }
+
+        recentGamesAdapter = RecentGamesAdapter(viewModel.getGames())
+
+        binding.rvRecentGames.adapter = recentGamesAdapter
+        binding.rvRecentGames.layoutManager = LinearLayoutManager(this)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -53,11 +57,5 @@ class MainMenuActivity : AppCompatActivity() {
             val intent = Intent(this, RulesListActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.rvRecentGames, fragment)
-        transaction.commit()
     }
 }
