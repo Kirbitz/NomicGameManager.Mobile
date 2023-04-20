@@ -14,9 +14,9 @@ import mobile.game.manager.nomic.databinding.ActivityMainBinding
 import java.util.*
 
 /**
- * Define the MainActivity class that extends the AppCompatActivity class
+ * Define the MicrophoneHandler class that extends the AppCompatActivity class
  */
-class MainActivity : AppCompatActivity() {
+class MicrophoneHandler : AppCompatActivity() {
 
     /**
      * Define the request code to use when launching the speech recognition activity
@@ -123,19 +123,8 @@ class MainActivity : AppCompatActivity() {
             Log.i("recognizedText", "Does contain $recognizedText")
             val confirm = "Did you say '$rule'?"
             textToSpeech(confirm) {}
-
-            // Return here and break back to the processSpeech function
-            /**
-            val userResponse = getTextFromUser()
-            if (userResponse.contains("yes", true)) {
-                val confirm = "Running '$rule'"
-                textToSpeech(confirm) {}
-            */
-                // newRule()
-
             return true
         }
-
         return false
     }
 
@@ -205,7 +194,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 source = 0
             }
-
         }
     }
 
@@ -250,12 +238,9 @@ class MainActivity : AppCompatActivity() {
         textToSpeechEngine.shutdown()
         super.onDestroy()
     }
-
-
-
 }
 
-class SpeechRecognizer(private val activity: MainActivity) : RecognitionListener {
+class SpeechRecognizer(private val activity: MicrophoneHandler) : RecognitionListener {
     override fun onReadyForSpeech(p0: Bundle?) {
         Log.i("Speech Recognizer","On Ready")
     }
