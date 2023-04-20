@@ -45,16 +45,14 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                     }
                     continuation.resumeWithException(exception)
                 }
-            )
-            {
+            ) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
                     headers["Authorization"] = BuildConfig.USER_TOKEN
                     try {
                         headers.putAll(super.getHeaders())
-                    }
-                    catch (exception: Exception) {
+                    } catch (exception: Exception) {
                         exception.printStackTrace()
                     }
                     return headers
@@ -68,7 +66,7 @@ class VolleyRequester(context: Context) : IVolleyRequester {
     override suspend fun <I, O> jsonObjectRequest(url: String, data: I, tag: String): O {
         return suspendCancellableCoroutine { continuation ->
             val jsonData = JSONObject(mapper.writeValueAsString(data))
-            val jsonRequest = object: JsonObjectRequest(
+            val jsonRequest = object : JsonObjectRequest(
                 Method.POST, url, jsonData,
                 { response ->
                     val responseObject = mapper.readValue<ResponseFormatDTO<O>>(response.toString())
@@ -87,16 +85,14 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                     }
                     continuation.resumeWithException(exception)
                 }
-            )
-            {
+            ) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
                     headers["Authorization"] = BuildConfig.USER_TOKEN
                     try {
                         headers.putAll(super.getHeaders())
-                    }
-                    catch (exception: Exception) {
+                    } catch (exception: Exception) {
                         exception.printStackTrace()
                     }
                     return headers
