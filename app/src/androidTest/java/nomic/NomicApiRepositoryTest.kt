@@ -41,11 +41,22 @@ class NomicApiRepositoryTest {
         )
     )
 
+    private val gameList = listOf(
+        GameDTO(
+            gameId = 2,
+            title = "Wow",
+            createDate = LocalDate.now(),
+            currentPlayer = 2,
+            userId = 3
+        )
+    )
+
     init {
         val mockVolleyRequester: VolleyRequester = mockk()
 
         coEvery { mockVolleyRequester.stringRequest<String>(any(), any()) } returns "You Got A String"
         coEvery { mockVolleyRequester.stringRequest<List<RulesAmendmentsDTO>>("http://10.0.2.2:8080/api/rules_amendments/collect/2", any()) } returns rulesAmendmentsList
+        coEvery { mockVolleyRequester.stringRequest<List<GameDTO>>("http://10.0.2.2:8080/api/game/list?size=100&offset=0", any()) } returns gameList
         coEvery { mockVolleyRequester.jsonObjectRequest<Any, String>(any(), any(), any()) } returns "You Got A String"
 
         nomicApiRepository = NomicApiRepository(mockVolleyRequester)
@@ -144,5 +155,16 @@ class NomicApiRepositoryTest {
         advanceUntilIdle()
 
         assertEquals("You Got A String", successString)
+    }
+
+    @Test
+    @ExperimentalCoroutinesApi
+    fun collectGamesData_DataReceived_VolleyRequesterHit() = runTest {
+        var data: List<GameDTO> = emptyList()
+        launch { data = nomicApiRepository.getGamesList(100, 0, "tag") }
+        advanceUntilIdle()
+
+        assertEquals(gameList[0].gameId, data[0].gameId)
+        assertEquals(gameList.size, data.size)
     }
 }

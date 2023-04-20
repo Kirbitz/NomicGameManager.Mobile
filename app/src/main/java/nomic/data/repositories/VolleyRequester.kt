@@ -13,6 +13,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import nomic.data.models.ResponseFormatDTO
 import org.json.JSONObject
 import kotlin.coroutines.resumeWithException
+import nomic.mobile.BuildConfig
 
 /**
  * Implementation of the [IVolleyRequester][nomic.data.repositories.IVolleyRequester]
@@ -49,7 +50,7 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
-                    headers["Authorization"] = "Test"
+                    headers["Authorization"] = BuildConfig.USER_TOKEN
                     try {
                         headers.putAll(super.getHeaders())
                     }
@@ -91,7 +92,7 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
-                    headers["Authorization"] = "Test"
+                    headers["Authorization"] = BuildConfig.USER_TOKEN
                     try {
                         headers.putAll(super.getHeaders())
                     }

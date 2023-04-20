@@ -50,6 +50,11 @@ class NomicApiRepository(private val volleyRequester: VolleyRequester) : INomicA
         return volleyRequester.jsonObjectRequest(endpointUrl, newGame, tag)
     }
 
+    override suspend fun getGamesList(size: Int, offset: Int, tag: String): List<GameDTO> {
+        val endpointUrl = "$baseUrl/game/list?size=$size&offset=$offset"
+        return volleyRequester.stringRequest(endpointUrl, tag)
+    }
+
     /**
      * Cancels all requests that are identified by tag
      *

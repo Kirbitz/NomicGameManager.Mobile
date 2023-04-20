@@ -16,7 +16,7 @@ interface INomicApiRepository {
      *
      * @param gameId the game Id to collect rules and amendments data on
      * @param tag Identifier for a request made through the Volley Queue
-     * @return The list of [RulesAmendmentsModel][nomic.data.models.RulesAmendmentsDTO] objects
+     * @return The list of [RulesAmendmentsDTO][nomic.data.models.RulesAmendmentsDTO] objects
      */
     suspend fun getRulesAmendmentsList(gameId: Int, tag: String): List<RulesAmendmentsDTO>
 
@@ -74,4 +74,14 @@ interface INomicApiRepository {
      * @return String that signifies the rule was repealed
      */
     suspend fun createGame(newGame: GameDTO, tag: String): String
+
+    /**
+     * Retrieves game data related to a specific user
+     *
+     * @param size the number of games to collect from the Nomic API
+     * @param offset the number of games to display on a page
+     * @param tag Identifier for a request made through the Volley Queue
+     * @return The list of [GameDTO][nomic.data.models.GameDTO] objects
+     */
+    suspend fun getGamesList(size: Int, offset: Int, tag: String): List<GameDTO>
 }
