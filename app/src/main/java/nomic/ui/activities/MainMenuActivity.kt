@@ -5,15 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import mobile.game.manager.nomic.R
 import mobile.game.manager.nomic.databinding.MainMenuPageBinding
+import nomic.ui.ConfigureGameActivity
+import nomic.ui.RulesListActivity
 import nomic.ui.utils.RecentGamesAdapter
 import nomic.ui.viewmodels.MainMenuViewModel
 import nomic.ui.viewmodels.MainMenuViewModelFactory
@@ -30,8 +30,6 @@ class MainMenuActivity : AppCompatActivity() {
         _binding = MainMenuPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //replaceFragment(RecentGamesFragment())
-
         val viewModel: MainMenuViewModel by viewModels { MainMenuViewModelFactory(2, this) }
 
         recentGamesAdapter = RecentGamesAdapter(viewModel.getGames())
@@ -46,7 +44,8 @@ class MainMenuActivity : AppCompatActivity() {
         }
 
         binding.btnCreateGame.setOnClickListener {
-            Log.d("Create Game", "Hello")
+            val intent = Intent(this, ConfigureGameActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnJoinGame.setOnClickListener {
@@ -54,7 +53,8 @@ class MainMenuActivity : AppCompatActivity() {
         }
 
         binding.btnLoadGame.setOnClickListener {
-            Log.d("Load Game", "Hello")
+            val intent = Intent(this, RulesListActivity::class.java)
+            startActivity(intent)
         }
     }
 }
