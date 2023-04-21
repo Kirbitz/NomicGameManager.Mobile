@@ -107,7 +107,7 @@ class NomicApiRepositoryTest {
     @ExperimentalCoroutinesApi
     fun transmuteRuleData_SuccessReceived_VolleyRequesterHit() = runTest {
         var successString = ""
-        val mutableInput = ModifyRuleMutabilityDTO(mutableInput = false)
+        val mutableInput = ModifyRuleMutabilityDTO(isMutable = false)
         launch { successString = nomicApiRepository.transmuteRule(2, mutableInput, "tag") }
         advanceUntilIdle()
 
