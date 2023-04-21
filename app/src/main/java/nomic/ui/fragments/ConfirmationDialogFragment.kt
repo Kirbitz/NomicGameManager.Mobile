@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.android.synthetic.main.confirmation_dialog_fragment.cancelButton
 import kotlinx.android.synthetic.main.confirmation_dialog_fragment.confirmationText
 import mobile.game.manager.nomic.R
 
 class ConfirmationDialogFragment private constructor() : BottomSheetDialogFragment() {
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,6 +23,11 @@ class ConfirmationDialogFragment private constructor() : BottomSheetDialogFragme
         super.onViewCreated(view, savedInstanceState)
         val bundle = savedInstanceState ?: requireArguments()
         confirmationText.text = bundle.getString("confirmationText")
+
+        cancelButton.setOnClickListener {
+            // Hides the dialog, but is it the right way to do it?
+            this.dismiss()
+        }
     }
 
     companion object {
