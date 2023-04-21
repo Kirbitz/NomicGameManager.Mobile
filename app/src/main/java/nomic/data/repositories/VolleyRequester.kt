@@ -55,11 +55,6 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
                     headers["Authorization"] = BuildConfig.USER_TOKEN
-                    try {
-                        headers.putAll(super.getHeaders())
-                    } catch (exception: Exception) {
-                        exception.printStackTrace()
-                    }
                     return headers
                 }
             }
@@ -100,11 +95,6 @@ class VolleyRequester(context: Context) : IVolleyRequester {
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
                     headers["Authorization"] = BuildConfig.USER_TOKEN
-                    try {
-                        headers.putAll(super.getHeaders())
-                    } catch (exception: Exception) {
-                        exception.printStackTrace()
-                    }
                     return headers
                 }
             }
