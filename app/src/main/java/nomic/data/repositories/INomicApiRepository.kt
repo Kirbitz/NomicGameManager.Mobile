@@ -2,7 +2,7 @@ package nomic.data.repositories
 
 import nomic.data.models.AmendmentDTO
 import nomic.data.models.GameDTO
-import nomic.data.models.MutableRuleDTO
+import nomic.data.models.ModifyRuleMutabilityDTO
 import nomic.data.models.RuleDTO
 import nomic.data.models.RulesAmendmentsDTO
 
@@ -42,11 +42,11 @@ interface INomicApiRepository {
      * Sends rule data to be transmuted to the Nomic API
      *
      * @param ruleId the rule Id to repeal from the database
-     * @param mutable the flag object of [MutableRuleDTO] to update the rules mutability to
+     * @param mutable the flag object of [ModifyRuleMutabilityDTO] to update the rules mutability to
      * @param tag Identifier for a request made through the Volley Queue
      * @return String that signifies the rule was repealed
      */
-    suspend fun transmuteRule(ruleId: Int, mutable: MutableRuleDTO, tag: String): String
+    suspend fun transmuteRule(ruleId: Int, mutable: ModifyRuleMutabilityDTO, tag: String): String
 
     /**
      * Sends amendment data to be enacted to the Nomic API

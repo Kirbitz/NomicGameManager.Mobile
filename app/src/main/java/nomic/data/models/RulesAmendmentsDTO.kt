@@ -17,7 +17,7 @@ data class RulesAmendmentsDTO(
     val title: String,
     val description: String,
     val mutable: Boolean,
-    var amendments: MutableList<AmendmentModel> = mutableListOf()
+    var amendments: List<AmendmentModel> = listOf()
 )
 
 /**

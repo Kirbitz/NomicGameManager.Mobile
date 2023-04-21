@@ -2,7 +2,7 @@ package nomic.data.repositories
 
 import nomic.data.models.AmendmentDTO
 import nomic.data.models.GameDTO
-import nomic.data.models.MutableRuleDTO
+import nomic.data.models.ModifyRuleMutabilityDTO
 import nomic.data.models.RuleDTO
 import nomic.data.models.RulesAmendmentsDTO
 import nomic.mobile.BuildConfig
@@ -30,7 +30,7 @@ class NomicApiRepository(private val volleyRequester: VolleyRequester) : INomicA
         return volleyRequester.stringRequest(endpointUrl, tag)
     }
 
-    override suspend fun transmuteRule(ruleId: Int, mutable: MutableRuleDTO, tag: String): String {
+    override suspend fun transmuteRule(ruleId: Int, mutable: ModifyRuleMutabilityDTO, tag: String): String {
         val endpointUrl = "$baseUrl/rules_amendments/transmute_rule/$ruleId"
         return volleyRequester.jsonObjectRequest(endpointUrl, mutable, tag)
     }

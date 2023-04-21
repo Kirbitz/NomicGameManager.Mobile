@@ -26,6 +26,11 @@ class VolleyRequester(context: Context) : IVolleyRequester {
 
     override suspend fun <T> stringRequest(url: String, tag: String): T {
         return suspendCancellableCoroutine { continuation ->
+            // Lamba functions response and error are built in callback functions for StringRequest
+            // response is based on Response.Listener which triggers when a successful 2XX call is returned from the API
+            // error is based on Response.ErrorListener which triggers when volley receives a bad status code
+            //
+            // Also the reason this was turned into an object is that was the only method of being able to include headers in the request call
             val stringRequest = object : StringRequest(
                 Method.GET, url,
                 { response ->
@@ -66,6 +71,11 @@ class VolleyRequester(context: Context) : IVolleyRequester {
     override suspend fun <I, O> jsonObjectRequest(url: String, data: I, tag: String): O {
         return suspendCancellableCoroutine { continuation ->
             val jsonData = JSONObject(mapper.writeValueAsString(data))
+            // Lamba functions response and error are built in callback functions for JsonObjectRequest
+            // response is based on Response.Listener which triggers when a successful 2XX call is returned from the API
+            // error is based on Response.ErrorListener which triggers when volley receives a bad status code
+            //
+            // Also the reason this was turned into an object is that was the only method of being able to include headers in the request call
             val jsonRequest = object : JsonObjectRequest(
                 Method.POST, url, jsonData,
                 { response ->

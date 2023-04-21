@@ -10,7 +10,7 @@ import kotlinx.coroutines.test.runTest
 import nomic.data.models.AmendmentDTO
 import nomic.data.models.AmendmentModel
 import nomic.data.models.GameDTO
-import nomic.data.models.MutableRuleDTO
+import nomic.data.models.ModifyRuleMutabilityDTO
 import nomic.data.models.RuleDTO
 import nomic.data.models.RulesAmendmentsDTO
 import nomic.data.repositories.NomicApiRepository
@@ -69,8 +69,8 @@ class NomicApiRepositoryTest {
         launch { data = nomicApiRepository.getRulesAmendmentsList(2, "tag") }
         advanceUntilIdle()
 
-        assertEquals(rulesAmendmentsList[0].ruleId, data[0].ruleId)
         assertEquals(rulesAmendmentsList.size, data.size)
+        assertEquals(rulesAmendmentsList[0].ruleId, data[0].ruleId)
         assertEquals(rulesAmendmentsList[0].amendments.size, data[0].amendments.size)
     }
 
@@ -107,7 +107,7 @@ class NomicApiRepositoryTest {
     @ExperimentalCoroutinesApi
     fun transmuteRuleData_SuccessReceived_VolleyRequesterHit() = runTest {
         var successString = ""
-        val mutableInput = MutableRuleDTO(mutableInput = false)
+        val mutableInput = ModifyRuleMutabilityDTO(mutableInput = false)
         launch { successString = nomicApiRepository.transmuteRule(2, mutableInput, "tag") }
         advanceUntilIdle()
 
@@ -164,7 +164,7 @@ class NomicApiRepositoryTest {
         launch { data = nomicApiRepository.getGamesList(100, 0, "tag") }
         advanceUntilIdle()
 
-        assertEquals(gameList[0].gameId, data[0].gameId)
         assertEquals(gameList.size, data.size)
+        assertEquals(gameList[0].gameId, data[0].gameId)
     }
 }
