@@ -36,6 +36,7 @@ class RecentGamesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         holder.gameTitle.text = games[i].title
         holder.createDate.text = games[i].createDate.toString()
+        // Todo: Change functionality of Play Button to change intent to rules list activity with proper game id sent over
         holder.playBtn.setOnClickListener {
             Log.d("Game " + games[i].gameId.toString(), "Hello")
         }

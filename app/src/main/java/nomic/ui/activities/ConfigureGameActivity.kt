@@ -6,6 +6,7 @@ import android.os.Bundle
 import mobile.game.manager.nomic.databinding.ActivityTempBinding
 import nomic.ui.activities.MainMenuActivity
 
+// Dummy file for testing changing of activity intent in the MainMenuActivity
 class ConfigureGameActivity : AppCompatActivity() {
     private var _binding: ActivityTempBinding? = null
     private val binding get() = _binding!!
