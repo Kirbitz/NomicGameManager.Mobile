@@ -36,9 +36,6 @@ jobs:
         uses: ReactiveCircus/android-emulator-runner@v2.14.3
         with:
             api-level: 29
-            force-avd-creation: true
-            emulator-options: -no-snapshot-save -no-window -noaudio -camara-back none
-            disable-animations: true
             script: ./gradlew connectedCheck --staging
     
       # Upload Code Coverage to Codecov
