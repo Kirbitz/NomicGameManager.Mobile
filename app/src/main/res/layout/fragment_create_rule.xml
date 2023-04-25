@@ -61,7 +61,7 @@
         android:layout_width="213dp"
         android:layout_height="61dp"
         android:layout_gravity="center"
-        android:text="Submit" />
+        android:text="Create Rule" />
 
 
 </LinearLayout>

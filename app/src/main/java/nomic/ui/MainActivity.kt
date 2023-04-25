@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        binding.createRule.setOnClickListener{
+        binding.createAmend.setOnClickListener{
             CreateAmendmentFragment().show(supportFragmentManager, "newAmendTag")
 
         }
