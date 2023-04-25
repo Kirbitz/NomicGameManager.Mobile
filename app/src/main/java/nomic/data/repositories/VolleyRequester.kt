@@ -1,5 +1,6 @@
 package nomic.data.repositories
 
+
 import android.content.Context
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
@@ -9,11 +10,11 @@ import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import nomic.data.models.ResponseFormatDTO
 import nomic.mobile.BuildConfig
 import org.json.JSONObject
+import kotlin.coroutines.resumeWithException
 
 /**
  * Implementation of the [IVolleyRequester][nomic.data.repositories.IVolleyRequester]
