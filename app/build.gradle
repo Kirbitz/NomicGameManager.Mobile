@@ -24,7 +24,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 
 def settingsPropertiesFile = rootProject.file("settings.properties")
 def settingsProperties = new Properties()
-settingsProperties.load(new FileInputStream(settingsPropertiesFile))
+if (settingsPropertiesFile.exists()) {
+    settingsProperties.load(new FileInputStream(settingsPropertiesFile))
+} else {
+    def defaultFile = rootProject.file("settings.exampe")
+    settingsProperties.load(new FileInputStream(defaultFile))
+}
 
 android {
     namespace 'nomic.mobile'
@@ -72,8 +77,10 @@ android {
             initWith(getByName("debug"))
             testCoverageEnabled = true
             debuggable = true
-            buildConfigField("String", "SERVER_ROOT_URI", "\"mockURL\"")
-            buildConfigField("String", "USER_TOKEN", "\"mockUserToken\"")
+            def defaultFile = rootProject.file("settings.example")
+            settingsProperties.load(new FileInputStream(defaultFile))
+            buildConfigField("String", "SERVER_ROOT_URI", settingsProperties['SERVER_ROOT_URI'])
+            buildConfigField("String", "USER_TOKEN", settingsProperties['USER_TOKEN'])
         }
         testBuildType = "staging"
     }

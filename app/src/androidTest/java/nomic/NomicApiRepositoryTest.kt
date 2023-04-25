@@ -55,8 +55,8 @@ class NomicApiRepositoryTest {
         val mockVolleyRequester: VolleyRequester = mockk()
 
         coEvery { mockVolleyRequester.stringRequest<String>(any(), any()) } returns "You Got A String"
-        coEvery { mockVolleyRequester.stringRequest<List<RulesAmendmentsDTO>>("mockURL/rules_amendments/collect/2", any()) } returns rulesAmendmentsList
-        coEvery { mockVolleyRequester.stringRequest<List<GameDTO>>("mockURL/game/list?size=100&offset=0", any()) } returns gameList
+        coEvery { mockVolleyRequester.stringRequest<List<RulesAmendmentsDTO>>("MockURL/rules_amendments/collect/2", any()) } returns rulesAmendmentsList
+        coEvery { mockVolleyRequester.stringRequest<List<GameDTO>>("MockURL/game/list?size=100&offset=0", any()) } returns gameList
         coEvery { mockVolleyRequester.jsonObjectRequest<Any, String>(any(), any(), any()) } returns "You Got A String"
 
         nomicApiRepository = NomicApiRepository(mockVolleyRequester)
