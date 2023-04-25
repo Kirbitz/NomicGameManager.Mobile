@@ -15,4 +15,10 @@
         android:layout_width="223dp"
         android:layout_height="200dp"
         android:text="Create Rule" />
+
+    <Button
+        android:id="@+id/createAmend"
+        android:layout_width="223dp"
+        android:layout_height="200dp"
+        android:text="Create Amendment" />
 </LinearLayout>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import mobile.game.manager.nomic.databinding.ActivityMainBinding
+import nomic.ui.fragments.CreateAmendmentFragment
 import nomic.ui.fragments.CreateRuleFragment
 import nomic.ui.fragments.MainViewModel
 
@@ -20,6 +21,11 @@ class MainActivity : AppCompatActivity() {
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         binding.createRule.setOnClickListener{
             CreateRuleFragment().show(supportFragmentManager, "newRuleTag")
+
+        }
+
+        binding.createRule.setOnClickListener{
+            CreateAmendmentFragment().show(supportFragmentManager, "newAmendTag")
 
         }
     }

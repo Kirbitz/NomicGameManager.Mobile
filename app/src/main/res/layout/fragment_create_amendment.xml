@@ -49,11 +49,11 @@
         android:hint="Index" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/submitAmendbutton"
         android:layout_width="213dp"
         android:layout_height="61dp"
         android:layout_gravity="center"
-        android:text="Submit" />
+        android:text="Submit Amendment" />
 
 
 </LinearLayout>

@@ -24,7 +24,7 @@
         android:background="@drawable/edit_text_border"
         android:ems="10"
         android:inputType="text"
-        android:hint="Title"/>
+        android:hint="Title" />
 
     <EditText
         android:id="@+id/description"

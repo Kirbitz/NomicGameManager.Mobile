@@ -45,5 +45,4 @@ class CreateRuleFragment : BottomSheetDialogFragment() {
         return binding.root
     }
 
-
 }
