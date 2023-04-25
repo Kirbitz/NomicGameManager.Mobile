@@ -3,21 +3,24 @@ package nomic.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import nomic.mobile.databinding.ActivityMainBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import nomic.mobile.R
 import nomic.ui.activities.RulesListActivity
+import nomic.ui.utils.RulesListRecyclerAdapter
 
 class MainActivity : AppCompatActivity() {
-    private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
+    private var layoutManager: RecyclerView.LayoutManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.rules_list)
+        layoutManager = LinearLayoutManager(this)
 
-        binding.button.setOnClickListener {
-            val intent = Intent(this, RulesListActivity::class.java)
-            startActivity(intent)
-        }
+        // Grab the recyclerview by ID
+        var ruleRecycler: RecyclerView = findViewById(R.id.rule_recycler)
+        ruleRecycler.layoutManager = layoutManager
+        ruleRecycler.adapter = RulesListRecyclerAdapter(mutableListOf())
+
     }
 }
