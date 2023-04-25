@@ -27,7 +27,7 @@ def settingsProperties = new Properties()
 if (settingsPropertiesFile.exists()) {
     settingsProperties.load(new FileInputStream(settingsPropertiesFile))
 } else {
-    def defaultFile = rootProject.file("settings.exampe")
+    def defaultFile = rootProject.file("settings.example")
     settingsProperties.load(new FileInputStream(defaultFile))
 }
 
