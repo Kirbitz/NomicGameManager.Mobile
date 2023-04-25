@@ -107,7 +107,7 @@ class MicrophoneHandler : AppCompatActivity() {
     /**
     * Confirm that the user said "yes" before running a spoken action
     */
-    private fun processResponseText(recognizedText: String) : Boolean {
+    fun processResponseText(recognizedText: String) : Boolean {
         if (recognizedText.contains("yes", true)) {
             Log.i("processResponseText", "Sheila works")
             return true
@@ -118,7 +118,7 @@ class MicrophoneHandler : AppCompatActivity() {
     /**
      * Runs when speech matches commands
      */
-    private fun processRecognizedText(recognizedText: String, rule: String) : Boolean {
+    fun processRecognizedText(recognizedText: String, rule: String) : Boolean {
         if (recognizedText.contains(rule, true)) {
             Log.i("recognizedText", "Does contain $recognizedText")
             val confirm = "Did you say '$rule'?"
