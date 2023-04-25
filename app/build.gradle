@@ -38,9 +38,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField("String", "SERVER_ROOT_URI", settingsProperties['SERVER_ROOT_URI'])
-        buildConfigField("String", "USER_TOKEN", settingsProperties['USER_TOKEN'])
     }
 
     packagingOptions {
@@ -68,7 +65,17 @@ android {
         }
         debug {
             testCoverageEnabled true
+            buildConfigField("String", "SERVER_ROOT_URI", settingsProperties['SERVER_ROOT_URI'])
+            buildConfigField("String", "USER_TOKEN", settingsProperties['USER_TOKEN'])
         }
+        create("staging") {
+            initWith(buildTypes.debug)
+            debuggable = true
+            applicationIdSuffix = ".debug"
+            buildConfigField("String", "SERVER_ROOT_URI", "\"mockURL\"")
+            buildConfigField("String", "USER_TOKEN", "\"mockUserToken\"")
+        }
+        testBuildType = "staging"
     }
 
     compileOptions {
