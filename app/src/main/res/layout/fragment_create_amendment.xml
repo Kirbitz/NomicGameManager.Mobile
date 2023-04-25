@@ -7,11 +7,12 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Create Rule"
-        android:textColor="@color/black"
+        android:text="Create Amendment"
+        android:background="@color/purple_500"
+        android:textColor="@color/white"
         android:textSize="30sp"/>
 
     <EditText
@@ -23,7 +24,7 @@
         android:background="@drawable/edit_text_border"
         android:ems="10"
         android:inputType="text"
-        android:text="Title"/>
+        android:hint="Title"/>
 
     <EditText
         android:id="@+id/description"
@@ -34,27 +35,25 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:text="Description"/>
-
+        android:hint="Description"/>
 
     <EditText
         android:id="@+id/editTextNumberSigned"
-        android:layout_width="81dp"
-        android:layout_height="42dp"
+        android:layout_width="90dp"
+        android:layout_height="48dp"
         android:layout_margin="10dp"
         android:background="@drawable/edit_text_border"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="numberSigned"
-        android:text="Index"/>
+        android:hint="Index" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="135dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:text="Mutable"
-        android:layout_margin="10dp"/>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="213dp"
+        android:layout_height="61dp"
+        android:layout_gravity="center"
+        android:text="Submit" />
 
 
 </LinearLayout>

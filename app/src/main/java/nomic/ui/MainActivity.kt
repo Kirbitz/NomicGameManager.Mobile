@@ -2,18 +2,26 @@ package nomic.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import mobile.game.manager.nomic.R
-import nomic.ui.fragments.MainFragment
+import androidx.lifecycle.ViewModelProvider
+import mobile.game.manager.nomic.databinding.ActivityMainBinding
+import nomic.ui.fragments.CreateRuleFragment
+import nomic.ui.fragments.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var mainViewModel : MainViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
-                .commitNow()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        binding.createRule.setOnClickListener{
+            CreateRuleFragment().show(supportFragmentManager, "newRuleTag")
+
         }
     }
+
 }
