@@ -14,5 +14,5 @@ data class AmendmentDTO(
     val id: Int,
     val index: Int,
     val title: String,
-    val description: String? = null
+    val description: String
 )
