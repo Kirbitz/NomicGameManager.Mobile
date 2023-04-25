@@ -22,18 +22,32 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     ]))
 }
 
+def settingsPropertiesFile = rootProject.file("settings.properties")
+def settingsProperties = new Properties()
+settingsProperties.load(new FileInputStream(settingsPropertiesFile))
+
 android {
-    namespace 'mobile.game.manager.nomic'
+    namespace 'nomic.mobile'
     compileSdk 33
 
     defaultConfig {
-        applicationId "mobile.game.manager.nomic"
+        applicationId "nomic.mobile"
         minSdk 29
         targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "SERVER_ROOT_URI", settingsProperties['SERVER_ROOT_URI'])
+        buildConfigField("String", "USER_TOKEN", settingsProperties['USER_TOKEN'])
+    }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
 
     buildFeatures {
@@ -80,13 +94,18 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation("androidx.cardview:cardview:1.0.0")
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
-    implementation "androidx.activity:activity-ktx:1.6.0"
-    implementation "androidx.fragment:fragment-ktx:1.5.6"
+    implementation 'androidx.activity:activity-ktx:1.6.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.6'
+
     testImplementation 'junit:junit:4.13.2'
+
+    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    androidTestImplementation 'io.mockk:mockk-android:1.13.5'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

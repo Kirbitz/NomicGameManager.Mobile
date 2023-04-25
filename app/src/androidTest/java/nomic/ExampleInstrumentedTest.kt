@@ -15,10 +15,11 @@ import org.junit.Assert.assertEquals
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+
     @Test
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("nomic", appContext.packageName)
+        assertEquals("nomic.mobile", appContext.packageName)
     }
 }
