@@ -37,7 +37,7 @@ class MicrophoneHandler : AppCompatActivity() {
      */
     private lateinit var textToSpeechEngine: TextToSpeech
 
-    private lateinit var speechRecognizer : SpeechRecognizer
+    private lateinit var speechRecognizer: SpeechRecognizer
 
 
     /**
@@ -63,7 +63,6 @@ class MicrophoneHandler : AppCompatActivity() {
             Log.i("Button Click","Start")
             speechRecognizer.startListening(createSpeechIntent())
             Log.i("Button Click","Finished")
-
         }
 
         textToSpeechEngine = TextToSpeech(this) { status ->
@@ -81,10 +80,12 @@ class MicrophoneHandler : AppCompatActivity() {
         if (checkCallingOrSelfPermission(RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
             requestPermissions( arrayOf(RECORD_AUDIO), 101)
         }
-
     }
 
-    private fun createSpeechIntent() : Intent {
+    /**
+    * Creates the intent to begin requesting user to speak
+    */
+    private fun createSpeechIntent(): Intent {
         val sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
 
         sttIntent.putExtra(
@@ -107,7 +108,7 @@ class MicrophoneHandler : AppCompatActivity() {
     /**
     * Confirm that the user said "yes" before running a spoken action
     */
-    fun processResponseText(recognizedText: String) : Boolean {
+    fun processResponseText(recognizedText: String): Boolean {
         if (recognizedText.contains("yes", true)) {
             Log.i("processResponseText", "Sheila works")
             return true
@@ -118,7 +119,7 @@ class MicrophoneHandler : AppCompatActivity() {
     /**
      * Runs when speech matches commands
      */
-    fun processRecognizedText(recognizedText: String, rule: String) : Boolean {
+    fun processRecognizedText(recognizedText: String, rule: String): Boolean {
         if (recognizedText.contains(rule, true)) {
             Log.i("recognizedText", "Does contain $recognizedText")
             val confirm = "Did you say '$rule'?"
@@ -169,7 +170,6 @@ class MicrophoneHandler : AppCompatActivity() {
                         textToSpeech("Sorry, Please try again.") {}
                     }
                 }
-
             } else {
                 // Run confirmation
                 if (processResponseText(recognizedText)) {
@@ -216,7 +216,6 @@ class MicrophoneHandler : AppCompatActivity() {
             Log.i("textToSpeech", "Not isInitialized")
             queuedTTS.add(textToSpeak)
         }
-
     }
 
 
@@ -240,34 +239,37 @@ class MicrophoneHandler : AppCompatActivity() {
     }
 }
 
-class SpeechRecognizer(private val activity: MicrophoneHandler) : RecognitionListener {
+/**
+* Creates logs for where process is currently at
+*/
+class SpeechRecognizer(private val activity: MicrophoneHandler): RecognitionListener {
     override fun onReadyForSpeech(p0: Bundle?) {
-        Log.i("Speech Recognizer","On Ready")
+        Log.i("Speech Recognizer", "On Ready")
     }
 
     override fun onBeginningOfSpeech() {
-        Log.i("Speech Recognizer","On Beginning")
+        Log.i("Speech Recognizer", "On Beginning")
     }
 
     override fun onRmsChanged(p0: Float) {
-        Log.i("Speech Recognizer","On RMS Changed")
+        Log.i("Speech Recognizer", "On RMS Changed")
     }
 
     override fun onBufferReceived(p0: ByteArray?) {
-        Log.i("Speech Recognizer","On Buffer Received")
+        Log.i("Speech Recognizer", "On Buffer Received")
     }
 
     override fun onEndOfSpeech() {
 
-        Log.i("Speech Recognizer","On End of Speech")
+        Log.i("Speech Recognizer", "On End of Speech")
     }
 
     override fun onError(p0: Int) {
-        Log.i("Speech Recognizer","On Error: $p0")
+        Log.i("Speech Recognizer", "On Error: $p0")
     }
 
     override fun onResults(bundle: Bundle?) {
-        Log.i("Speech Recognizer","On Results")
+        Log.i("Speech Recognizer", "On Results")
         if (bundle == null) return
         Log.i("debug", bundle.toString())
         Log.i("onResults", "call processSpeech")
@@ -275,16 +277,15 @@ class SpeechRecognizer(private val activity: MicrophoneHandler) : RecognitionLis
     }
 
     override fun onPartialResults(p0: Bundle?) {
-        Log.i("Speech Recognizer","On Partial Results")
+        Log.i("Speech Recognizer", "On Partial Results")
     }
 
     override fun onEvent(p0: Int, p1: Bundle?) {
-        Log.i("Speech Recognizer","On Event")
+        Log.i("Speech Recognizer", "On Event")
     }
-
 }
 
-class MyRecognitionListener : RecognitionListener {
+class MyRecognitionListener: RecognitionListener {
     override fun onReadyForSpeech(params: Bundle?) {
         Log.i("SpeechRecognizer", "onReadyForSpeech")
     }
