@@ -69,9 +69,9 @@ android {
             buildConfigField("String", "USER_TOKEN", settingsProperties['USER_TOKEN'])
         }
         create("staging") {
-            initWith(buildTypes.debug)
+            initWith(getByName("debug"))
+            testCoverageEnabled = true
             debuggable = true
-            applicationIdSuffix = ".debug"
             buildConfigField("String", "SERVER_ROOT_URI", "\"mockURL\"")
             buildConfigField("String", "USER_TOKEN", "\"mockUserToken\"")
         }
