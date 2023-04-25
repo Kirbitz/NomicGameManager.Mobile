@@ -9,11 +9,11 @@ import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import nomic.data.models.ResponseFormatDTO
-import org.json.JSONObject
-import kotlin.coroutines.resumeWithException
 import nomic.mobile.BuildConfig
+import org.json.JSONObject
 
 /**
  * Implementation of the [IVolleyRequester][nomic.data.repositories.IVolleyRequester]
@@ -32,7 +32,8 @@ class VolleyRequester(context: Context) : IVolleyRequester {
             //
             // Also the reason this was turned into an object is that was the only method of being able to include headers in the request call
             val stringRequest = object : StringRequest(
-                Method.GET, url,
+                Method.GET,
+                url,
                 { response ->
                     val responseObject = mapper.readValue<ResponseFormatDTO<T>>(response)
                     if (responseObject.success) {
@@ -72,7 +73,9 @@ class VolleyRequester(context: Context) : IVolleyRequester {
             //
             // Also the reason this was turned into an object is that was the only method of being able to include headers in the request call
             val jsonRequest = object : JsonObjectRequest(
-                Method.POST, url, jsonData,
+                Method.POST,
+                url,
+                jsonData,
                 { response ->
                     val responseObject = mapper.readValue<ResponseFormatDTO<O>>(response.toString())
                     if (responseObject.success) {
