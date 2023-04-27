@@ -4,15 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.confirmation_dialog_fragment.cancelButton
-import kotlinx.android.synthetic.main.confirmation_dialog_fragment.confirmationButton
-import kotlinx.android.synthetic.main.confirmation_dialog_fragment.confirmationText
 import mobile.game.manager.nomic.R
 
-class ConfirmationDialogFragment private constructor() : BottomSheetDialogFragment() {
+class ConfirmationDialogFragment: BottomSheetDialogFragment() {
 
     private var callback : suspend ()->Unit = {}
+
+    val confirmationText by lazy {
+        requireView().findViewById<TextView>(R.id.confirmationText)
+    }
+
+    val confirmationButton by lazy {
+        requireView().findViewById<Button>(R.id.confirmationButton)
+    }
+
+    val cancelButton by lazy {
+        requireView().findViewById<Button>(R.id.cancelButton)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

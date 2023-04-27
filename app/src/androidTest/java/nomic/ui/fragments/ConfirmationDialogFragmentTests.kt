@@ -4,7 +4,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.testing.launchFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import kotlinx.android.synthetic.main.confirmation_dialog_fragment.confirmationText
 import org.junit.Test
 import org.junit.runner.RunWith
 
