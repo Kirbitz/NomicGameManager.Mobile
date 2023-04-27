@@ -1,0 +1,2 @@
+SERVER_ROOT_URI="MockURL"
+USER_TOKEN="foo.bar.secret2"
