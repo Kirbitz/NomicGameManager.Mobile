@@ -9,16 +9,21 @@ import androidx.recyclerview.widget.RecyclerView
 import nomic.data.models.AmendmentModel
 import nomic.data.models.RuleRecyclerModel
 import nomic.mobile.R
+import nomic.mobile.databinding.ActivityMainBinding
+import nomic.ui.fragments.CreateRuleFragment
 import nomic.ui.utils.RuleRecyclerAdapter
 
 class RulesListActivity : AppCompatActivity() {
     private lateinit var ruleRecycler: RecyclerView
+    private lateinit var binding: ActivityMainBinding
     private lateinit var ruleList: MutableList<RuleRecyclerModel>
     private lateinit var addRule: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.rules_list)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
         // Grab the recyclerview by ID
         ruleRecycler = findViewById(R.id.rule_recycler)
@@ -29,10 +34,14 @@ class RulesListActivity : AppCompatActivity() {
         ruleRecycler.adapter = ruleAdapter
 
         // Add the "add a rule" functionality
-        addRule = findViewById(R.id.addrule_floatingbutton)
+        addRule = findViewById(R.id.addRule)
         addRule.setOnClickListener {
-            Toast.makeText(this, "Pressed add RULE", Toast.LENGTH_SHORT).show()
+            CreateRuleFragment().show(supportFragmentManager, "newRuleTag")
         }
+
+        /*addRule.setOnClickListener {
+            Toast.makeText(this, "Pressed add RULE", Toast.LENGTH_SHORT).show()
+        }*/
 
     }
 

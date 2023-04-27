@@ -8,6 +8,7 @@ import nomic.ui.fragments.CreateAmendmentFragment
 import nomic.ui.fragments.CreateRuleFragment
 import nomic.ui.fragments.MainViewModel
 
+/*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         binding.createRule.setOnClickListener{
             CreateRuleFragment().show(supportFragmentManager, "newRuleTag")
@@ -30,4 +32,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-}
+}*/

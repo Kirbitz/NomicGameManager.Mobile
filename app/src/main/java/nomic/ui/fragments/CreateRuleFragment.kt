@@ -10,11 +10,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import nomic.mobile.databinding.FragmentCreateRuleBinding
+import nomic.ui.viewmodels.RulesListViewModel
 
 
 class CreateRuleFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentCreateRuleBinding
-    private lateinit var mainViewModel: MainViewModel
+    //private lateinit var viewModel: RulesListViewModel
 
     /*
     creates the view of bottom sheet
@@ -22,7 +23,7 @@ class CreateRuleFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = requireActivity()
-        mainViewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+        //viewModel = ViewModelProvider(activity).get(RulesListViewModel::class.java)
         binding.submitRuleButton.setOnClickListener {
             saveAction()
         }
