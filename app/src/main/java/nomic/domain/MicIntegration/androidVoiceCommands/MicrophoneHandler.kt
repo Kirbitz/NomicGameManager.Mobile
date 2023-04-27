@@ -82,8 +82,8 @@ class MicrophoneHandler : AppCompatActivity() {
     }
 
     /**
-    * Creates the intent to begin requesting user to speak
-    */
+     * Creates the intent to begin requesting user to speak
+     */
     private fun createSpeechIntent(): Intent {
         val sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
 
@@ -105,8 +105,8 @@ class MicrophoneHandler : AppCompatActivity() {
     }
 
     /**
-    * Confirm that the user said "yes" before running a spoken action
-    */
+     * Confirm that the user said "yes" before running a spoken action
+     */
     fun processResponseText(recognizedText: String): Boolean {
         if (recognizedText.contains("yes", true)) {
             Log.i("processResponseText", "Sheila works")
