@@ -1,4 +1,4 @@
-package com.example.pleasework.ui.theme
+package nomic.domain.MicIntegration.androidVoiceCommands.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
