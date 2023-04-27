@@ -11,7 +11,7 @@ import java.time.LocalDate
  * @property currentPlayer the indicator of who's turn it is
  * @property userId the user the game is attached to
  */
-data class GameDTO (
+data class GameDTO(
     val gameId: Int? = null,
     val title: String,
     val createDate: LocalDate? = null,
