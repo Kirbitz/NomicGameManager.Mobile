@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import mobile.game.manager.nomic.R
-import mobile.game.manager.nomic.databinding.FragmentCreateAmendmentBinding
+import nomic.data.models.RuleDTO
+import nomic.mobile.databinding.FragmentCreateAmendmentBinding
 
 
 class CreateAmendmentFragment : BottomSheetDialogFragment() {
@@ -43,14 +43,14 @@ class CreateAmendmentFragment : BottomSheetDialogFragment() {
             val toast = Toast.makeText(context, "Invalid Title Characters", duration)
             toast.show()
         }
-        if(!pattern.matches(binding.description.text.toString()))
+        else if(!pattern.matches(binding.description.text.toString()))
         {
             //Toast pop up notification for regex checking
             val toast = Toast.makeText(context, "Invalid Description Characters", duration)
             toast.show()
         }
-        else
-        {
+        else{
+
             dismiss()
         }
 
