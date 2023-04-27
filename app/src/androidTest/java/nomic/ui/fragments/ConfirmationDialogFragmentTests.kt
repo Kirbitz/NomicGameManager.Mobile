@@ -58,5 +58,4 @@ class ConfirmationDialogFragmentTests {
             .perform(click())
             .check(doesNotExist())
     }
-
 }

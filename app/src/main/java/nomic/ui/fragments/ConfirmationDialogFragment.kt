@@ -9,9 +9,9 @@ import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import mobile.game.manager.nomic.R
 
-class ConfirmationDialogFragment: BottomSheetDialogFragment() {
+class ConfirmationDialogFragment : BottomSheetDialogFragment() {
 
-    private var callback : suspend ()->Unit = {}
+    private var callback: suspend () -> Unit = {}
 
     private val confirmationText: TextView by lazy {
         requireView().findViewById(R.id.confirmationText)
@@ -51,12 +51,12 @@ class ConfirmationDialogFragment: BottomSheetDialogFragment() {
         }
     }
 
-    fun setOnConfirmationListener(callback: suspend ()->Unit) {
+    fun setOnConfirmationListener(callback: suspend () -> Unit) {
         this.callback = callback
     }
 
     companion object {
-        fun newInstance(confirmationText : String) : ConfirmationDialogFragment {
+        fun newInstance(confirmationText: String): ConfirmationDialogFragment {
             val bundle = Bundle()
             bundle.putString("confirmationText", confirmationText)
             val fragment = ConfirmationDialogFragment()
