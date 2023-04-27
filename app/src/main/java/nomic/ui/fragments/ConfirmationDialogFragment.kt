@@ -13,16 +13,16 @@ class ConfirmationDialogFragment: BottomSheetDialogFragment() {
 
     private var callback : suspend ()->Unit = {}
 
-    val confirmationText by lazy {
-        requireView().findViewById<TextView>(R.id.confirmationText)
+    private val confirmationText: TextView by lazy {
+        requireView().findViewById(R.id.confirmationText)
     }
 
-    val confirmationButton by lazy {
-        requireView().findViewById<Button>(R.id.confirmationButton)
+    private val confirmationButton: Button by lazy {
+        requireView().findViewById(R.id.confirmationButton)
     }
 
-    val cancelButton by lazy {
-        requireView().findViewById<Button>(R.id.cancelButton)
+    private val cancelButton: Button by lazy {
+        requireView().findViewById(R.id.cancelButton)
     }
 
     override fun onCreateView(
