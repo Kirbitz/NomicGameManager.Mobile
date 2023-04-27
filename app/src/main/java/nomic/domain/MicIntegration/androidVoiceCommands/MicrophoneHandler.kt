@@ -83,8 +83,8 @@ class MicrophoneHandler : AppCompatActivity() {
 
     /**
     * Creates the intent to begin requesting user to speak
-     */
-     private fun createSpeechIntent(): Intent {
+    */
+    private fun createSpeechIntent(): Intent {
         val sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
 
         sttIntent.putExtra(
@@ -106,8 +106,8 @@ class MicrophoneHandler : AppCompatActivity() {
 
     /**
     * Confirm that the user said "yes" before running a spoken action
-     */
-     fun processResponseText(recognizedText: String): Boolean {
+    */
+    fun processResponseText(recognizedText: String): Boolean {
         if (recognizedText.contains("yes", true)) {
             Log.i("processResponseText", "Sheila works")
             return true
@@ -213,7 +213,6 @@ class MicrophoneHandler : AppCompatActivity() {
         }
     }
 
-
     /**
      * If text engine needs to be paused stops it
      */
@@ -237,8 +236,8 @@ class MicrophoneHandler : AppCompatActivity() {
 /**
 * Creates logs for where process is currently at
 */
-class SpeechRecognizer(private val activity: MicrophoneHandler): RecognitionListener {
-    override fun onReadyForSpeech(p0 : Bundle?) {
+class SpeechRecognizer(private val activity: MicrophoneHandler) : RecognitionListener {
+    override fun onReadyForSpeech(p0: Bundle?) {
         Log.i("Speech Recognizer", "On Ready")
     }
 
@@ -279,7 +278,7 @@ class SpeechRecognizer(private val activity: MicrophoneHandler): RecognitionList
     }
 }
 
-class MyRecognitionListener: RecognitionListener {
+class MyRecognitionListener : RecognitionListener {
     override fun onReadyForSpeech(params: Bundle?) {
         Log.i("SpeechRecognizer", "onReadyForSpeech")
     }
