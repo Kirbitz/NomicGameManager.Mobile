@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import mobile.game.manager.nomic.R
+import nomic.mobile.R
 
 class MainFragment : Fragment() {
 

@@ -10,7 +10,7 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import mobile.game.manager.nomic.databinding.ActivityMainBinding
+import nomic.mobile.databinding.ActivityMainBinding
 import java.util.*
 
 /**
