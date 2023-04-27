@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import mobile.game.manager.nomic.R
+import nomic.mobile.R
 
 class ConfirmationDialogFragment: BottomSheetDialogFragment() {
 
