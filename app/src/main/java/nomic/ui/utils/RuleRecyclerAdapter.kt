@@ -3,8 +3,9 @@ package nomic.ui.utils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,11 +16,11 @@ class RuleRecyclerAdapter(val list: MutableList<RuleRecyclerModel>) : RecyclerVi
 
 
     inner class RuleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val relativeLayout : RelativeLayout? = view.findViewById(R.id.rule_relative_layout)
-        // val relativeLayout  : RelativeLayout? = view.findViewById(R.id.amend_layout)
+        val ruleListConstraintLayout : ConstraintLayout? = view.findViewById(R.id.rulelist_constraint_layout)
         val ruleIndex : TextView? = view.findViewById(R.id.rule_index)
         val ruleTitle : TextView? = view.findViewById(R.id.rule_title)
-        // val downArrow : ImageView? = view.findViewById(R.id.arrow_iv)
+        val amendButton : ImageButton? = view.findViewById(R.id.amend_button)
+        val deleteButton : ImageButton? = view.findViewById(R.id.deleterule_button)
         val amendRecycler : RecyclerView? = view.findViewById(R.id.amend_rv)
     }
 
@@ -47,9 +48,17 @@ class RuleRecyclerAdapter(val list: MutableList<RuleRecyclerModel>) : RecyclerVi
         val isExpanded = rule.isExpanded
         holder.amendRecycler?.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
-        holder.relativeLayout?.setOnClickListener {
+        holder.ruleListConstraintLayout?.setOnClickListener {
             rule.isExpanded = !rule.isExpanded
             notifyItemChanged(position)
+        }
+
+        holder.amendButton?.setOnClickListener {
+            Toast.makeText(holder.itemView.context, "Pressed add AMENDMENT", Toast.LENGTH_SHORT).show()
+        }
+
+        holder.deleteButton?.setOnClickListener {
+            Toast.makeText(holder.itemView.context, "Pressed delete RULE", Toast.LENGTH_SHORT).show()
         }
     }
 }
