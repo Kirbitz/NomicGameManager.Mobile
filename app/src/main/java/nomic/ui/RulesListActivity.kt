@@ -11,7 +11,7 @@ import nomic.data.models.RuleRecyclerModel
 import nomic.mobile.R
 import nomic.ui.utils.RuleRecyclerAdapter
 
-class MainActivity : AppCompatActivity() {
+class RulesListActivity : AppCompatActivity() {
     private lateinit var ruleRecycler: RecyclerView
     private lateinit var ruleList: MutableList<RuleRecyclerModel>
     private lateinit var addRule: ImageButton
