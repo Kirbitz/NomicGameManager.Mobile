@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import nomic.data.models.RuleRecyclerModel
 import nomic.mobile.R
 
-class RuleRecyclerAdapter(val list: MutableList<RuleRecyclerModel>) : RecyclerView.Adapter<RuleRecyclerAdapter.RuleViewHolder>() {
-
+class RuleRecyclerAdapter(val list: MutableList<RuleRecyclerModel>)
+    : RecyclerView.Adapter<RuleRecyclerAdapter.RuleViewHolder>() {
 
     inner class RuleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ruleListConstraintLayout : ConstraintLayout? = view.findViewById(R.id.rulelist_constraint_layout)
@@ -36,12 +36,12 @@ class RuleRecyclerAdapter(val list: MutableList<RuleRecyclerModel>) : RecyclerVi
     override fun onBindViewHolder(holder: RuleViewHolder, position: Int) {
         val rule = list[position]
 
-        holder.ruleIndex?.text = rule.index.toString()
-        holder.ruleTitle?.text = rule.title
+        holder.ruleIndex?.text = rule.rulesAmendmentsDTO.index.toString()
+        holder.ruleTitle?.text = rule.rulesAmendmentsDTO.title
         holder.amendRecycler?.setHasFixedSize(true)
         holder.amendRecycler?.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
 
-        val amendmentAdapter = AmendmentRecyclerAdapter(rule.amendments)
+        val amendmentAdapter = AmendmentRecyclerAdapter(rule.rulesAmendmentsDTO.amendments)
         holder.amendRecycler?.adapter = amendmentAdapter
 
         // Make the list actually expand

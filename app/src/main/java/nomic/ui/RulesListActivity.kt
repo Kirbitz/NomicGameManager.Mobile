@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import nomic.data.models.AmendmentModel
 import nomic.data.models.RuleRecyclerModel
+import nomic.data.models.RulesAmendmentsDTO
 import nomic.mobile.R
 import nomic.ui.utils.RuleRecyclerAdapter
 
@@ -45,10 +46,14 @@ class RulesListActivity : AppCompatActivity() {
         val amendsTwo = amends.toMutableList()
         val amendsThree = amends.toMutableList()
 
+        val ruleOne = RulesAmendmentsDTO(1, 1, "What happens if I give the title of the amendment some ridiculously long name",":)", false, amends)
+        val ruleTwo = RulesAmendmentsDTO(1, 1234, "Hello Rule!", "Hi", false, amendsTwo)
+        val ruleThree = RulesAmendmentsDTO(1, 5678, "Hello Rule!", "Hi", false, amendsThree)
+
         ruleList = mutableListOf(
-            RuleRecyclerModel(1, 1, "What happens if I give the title of the amendment some ridiculously long name",":)", true, amends),
-            RuleRecyclerModel(2, 123456789, "Hello Two!",":(", false, amendsTwo),
-            RuleRecyclerModel(3, 3, "Hello Tres!",":|", false, amendsThree),
+            RuleRecyclerModel(ruleOne, false),
+            RuleRecyclerModel(ruleTwo, false),
+            RuleRecyclerModel(ruleThree, false),
         )
 
     }
