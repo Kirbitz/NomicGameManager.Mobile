@@ -16,7 +16,6 @@ import org.junit.runner.RunWith
 import java.util.concurrent.CountDownLatch
 import java.util.Observer
 
-
 @RunWith(AndroidJUnit4::class)
 class MicrophoneHandlerTests {
     private lateinit var microphoneHandler: MicrophoneHandler
@@ -61,5 +60,4 @@ class MicrophoneHandlerTests {
         val actual = microphoneHandler.processRecognizedText("test", "fail")
         assertFalse((actual ?: false) as Boolean)
     }
-
 }

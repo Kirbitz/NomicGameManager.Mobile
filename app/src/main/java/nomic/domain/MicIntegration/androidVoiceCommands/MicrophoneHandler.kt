@@ -39,7 +39,6 @@ class MicrophoneHandler : AppCompatActivity() {
 
     private lateinit var speechRecognizer: SpeechRecognizer
 
-
     /**
      * Binding for activity_main xml
      */
@@ -60,9 +59,9 @@ class MicrophoneHandler : AppCompatActivity() {
         // Add a click listener to the "Speak" button
         binding.btnStt.setOnClickListener {
             // Create an intent to start the speech recognition activity
-            Log.i("Button Click","Start")
+            Log.i("Button Click", "Start")
             speechRecognizer.startListening(createSpeechIntent())
-            Log.i("Button Click","Finished")
+            Log.i("Button Click", "Finished")
         }
 
         textToSpeechEngine = TextToSpeech(this) { status ->
@@ -78,14 +77,14 @@ class MicrophoneHandler : AppCompatActivity() {
         speechRecognizer.setRecognitionListener(SpeechRecognizer(this))
 
         if (checkCallingOrSelfPermission(RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
-            requestPermissions( arrayOf(RECORD_AUDIO), 101)
+            requestPermissions(arrayOf(RECORD_AUDIO), 101)
         }
     }
 
     /**
     * Creates the intent to begin requesting user to speak
-    */
-    private fun createSpeechIntent(): Intent {
+     */
+     private fun createSpeechIntent(): Intent {
         val sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
 
         sttIntent.putExtra(
@@ -107,8 +106,8 @@ class MicrophoneHandler : AppCompatActivity() {
 
     /**
     * Confirm that the user said "yes" before running a spoken action
-    */
-    fun processResponseText(recognizedText: String): Boolean {
+     */
+     fun processResponseText(recognizedText: String): Boolean {
         if (recognizedText.contains("yes", true)) {
             Log.i("processResponseText", "Sheila works")
             return true
@@ -197,8 +196,6 @@ class MicrophoneHandler : AppCompatActivity() {
         }
     }
 
-
-
     /**
      * Takes text and turns it to speech using google accessibility
      */
@@ -210,9 +207,7 @@ class MicrophoneHandler : AppCompatActivity() {
             textToSpeechEngine.stop()
             textToSpeechEngine.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, utteranceId)
             Log.i("textToSpeech", "Completed ")
-        }
-        else
-        {
+        } else {
             Log.i("textToSpeech", "Not isInitialized")
             queuedTTS.add(textToSpeak)
         }
@@ -243,7 +238,7 @@ class MicrophoneHandler : AppCompatActivity() {
 * Creates logs for where process is currently at
 */
 class SpeechRecognizer(private val activity: MicrophoneHandler): RecognitionListener {
-    override fun onReadyForSpeech(p0: Bundle?) {
+    override fun onReadyForSpeech(p0 : Bundle?) {
         Log.i("Speech Recognizer", "On Ready")
     }
 
@@ -260,7 +255,6 @@ class SpeechRecognizer(private val activity: MicrophoneHandler): RecognitionList
     }
 
     override fun onEndOfSpeech() {
-
         Log.i("Speech Recognizer", "On End of Speech")
     }
 
