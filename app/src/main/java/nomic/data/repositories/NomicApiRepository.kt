@@ -2,9 +2,10 @@ package nomic.data.repositories
 
 import nomic.data.models.AmendmentDTO
 import nomic.data.models.GameDTO
-import nomic.data.models.MutableRuleDTO
+import nomic.data.models.ModifyRuleMutabilityDTO
 import nomic.data.models.RuleDTO
 import nomic.data.models.RulesAmendmentsDTO
+import nomic.mobile.BuildConfig
 
 /**
  * Implementation of the [INomicApiRepository][nomic.data.repositories.INomicApiRepository]
@@ -12,7 +13,7 @@ import nomic.data.models.RulesAmendmentsDTO
  * @see [nomic.data.repositories.INomicApiRepository]
  */
 class NomicApiRepository(private val volleyRequester: VolleyRequester) : INomicApiRepository {
-    private val baseUrl: String = "http://10.0.2.2:8080/api"
+    private val baseUrl: String = BuildConfig.SERVER_ROOT_URI
 
     override suspend fun getRulesAmendmentsList(gameId: Int, tag: String): List<RulesAmendmentsDTO> {
         val endpointUrl = "$baseUrl/rules_amendments/collect/$gameId"
@@ -29,7 +30,7 @@ class NomicApiRepository(private val volleyRequester: VolleyRequester) : INomicA
         return volleyRequester.stringRequest(endpointUrl, tag)
     }
 
-    override suspend fun transmuteRule(ruleId: Int, mutable: MutableRuleDTO, tag: String): String {
+    override suspend fun transmuteRule(ruleId: Int, mutable: ModifyRuleMutabilityDTO, tag: String): String {
         val endpointUrl = "$baseUrl/rules_amendments/transmute_rule/$ruleId"
         return volleyRequester.jsonObjectRequest(endpointUrl, mutable, tag)
     }
@@ -47,6 +48,11 @@ class NomicApiRepository(private val volleyRequester: VolleyRequester) : INomicA
     override suspend fun createGame(newGame: GameDTO, tag: String): String {
         val endpointUrl = "$baseUrl/game/create"
         return volleyRequester.jsonObjectRequest(endpointUrl, newGame, tag)
+    }
+
+    override suspend fun getGamesList(size: Int, offset: Int, tag: String): List<GameDTO> {
+        val endpointUrl = "$baseUrl/game/list?size=$size&offset=$offset"
+        return volleyRequester.stringRequest(endpointUrl, tag)
     }
 
     /**

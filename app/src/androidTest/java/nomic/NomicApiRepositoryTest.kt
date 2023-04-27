@@ -10,7 +10,7 @@ import kotlinx.coroutines.test.runTest
 import nomic.data.models.AmendmentDTO
 import nomic.data.models.AmendmentModel
 import nomic.data.models.GameDTO
-import nomic.data.models.MutableRuleDTO
+import nomic.data.models.ModifyRuleMutabilityDTO
 import nomic.data.models.RuleDTO
 import nomic.data.models.RulesAmendmentsDTO
 import nomic.data.repositories.NomicApiRepository
@@ -41,11 +41,22 @@ class NomicApiRepositoryTest {
         )
     )
 
+    private val gameList = listOf(
+        GameDTO(
+            gameId = 2,
+            title = "Wow",
+            createDate = LocalDate.now(),
+            currentPlayer = 2,
+            userId = 3
+        )
+    )
+
     init {
         val mockVolleyRequester: VolleyRequester = mockk()
 
         coEvery { mockVolleyRequester.stringRequest<String>(any(), any()) } returns "You Got A String"
-        coEvery { mockVolleyRequester.stringRequest<List<RulesAmendmentsDTO>>("http://10.0.2.2:8080/api/rules_amendments/collect/2", any()) } returns rulesAmendmentsList
+        coEvery { mockVolleyRequester.stringRequest<List<RulesAmendmentsDTO>>("MockURL/rules_amendments/collect/2", any()) } returns rulesAmendmentsList
+        coEvery { mockVolleyRequester.stringRequest<List<GameDTO>>("MockURL/game/list?size=100&offset=0", any()) } returns gameList
         coEvery { mockVolleyRequester.jsonObjectRequest<Any, String>(any(), any(), any()) } returns "You Got A String"
 
         nomicApiRepository = NomicApiRepository(mockVolleyRequester)
@@ -58,8 +69,8 @@ class NomicApiRepositoryTest {
         launch { data = nomicApiRepository.getRulesAmendmentsList(2, "tag") }
         advanceUntilIdle()
 
-        assertEquals(rulesAmendmentsList[0].ruleId, data[0].ruleId)
         assertEquals(rulesAmendmentsList.size, data.size)
+        assertEquals(rulesAmendmentsList[0].ruleId, data[0].ruleId)
         assertEquals(rulesAmendmentsList[0].amendments.size, data[0].amendments.size)
     }
 
@@ -96,7 +107,7 @@ class NomicApiRepositoryTest {
     @ExperimentalCoroutinesApi
     fun transmuteRuleData_SuccessReceived_VolleyRequesterHit() = runTest {
         var successString = ""
-        val mutableInput = MutableRuleDTO(mutableInput = false)
+        val mutableInput = ModifyRuleMutabilityDTO(isMutable = false)
         launch { successString = nomicApiRepository.transmuteRule(2, mutableInput, "tag") }
         advanceUntilIdle()
 
@@ -144,5 +155,16 @@ class NomicApiRepositoryTest {
         advanceUntilIdle()
 
         assertEquals("You Got A String", successString)
+    }
+
+    @Test
+    @ExperimentalCoroutinesApi
+    fun collectGamesData_DataReceived_VolleyRequesterHit() = runTest {
+        var data: List<GameDTO> = emptyList()
+        launch { data = nomicApiRepository.getGamesList(100, 0, "tag") }
+        advanceUntilIdle()
+
+        assertEquals(gameList.size, data.size)
+        assertEquals(gameList[0].gameId, data[0].gameId)
     }
 }
