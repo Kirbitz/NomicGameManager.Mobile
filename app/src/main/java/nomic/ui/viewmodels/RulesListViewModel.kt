@@ -37,7 +37,7 @@ class RulesListViewModel(
     }
 
     private val nomicApiRepository by lazy {
-         NomicApiRepository(volleyRequester)
+         NomicApiRepository(volleyRequester, context)
     }
 
     // initialization

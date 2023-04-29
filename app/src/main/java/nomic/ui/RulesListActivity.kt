@@ -43,9 +43,10 @@ class RulesListActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 rulesListViewModel.uiState.collect { uiState ->
-                    Toast.makeText(applicationContext, uiState.rulesList.toString(), Toast.LENGTH_LONG).show()
-                    val ruleAdapter = RuleRecyclerAdapter(uiState.rulesList.map { RuleRecyclerModel(it) } as MutableList<RuleRecyclerModel>)
-                    ruleRecycler.adapter = ruleAdapter
+                    if (uiState.rulesList.size > 0) {
+                        val ruleAdapter = RuleRecyclerAdapter(uiState.rulesList.map { RuleRecyclerModel(it) } as MutableList<RuleRecyclerModel>)
+                        ruleRecycler.adapter = ruleAdapter
+                    }
                 }
             }
         }
