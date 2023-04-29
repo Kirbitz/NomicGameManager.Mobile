@@ -1,23 +1,67 @@
 package nomic.data.repositories
 
-import nomic.data.models.AmendmentDTO
-import nomic.data.models.GameDTO
-import nomic.data.models.ModifyRuleMutabilityDTO
-import nomic.data.models.RuleDTO
-import nomic.data.models.RulesAmendmentsDTO
+import android.content.Context
+import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import kotlinx.coroutines.suspendCancellableCoroutine
+import nomic.data.models.*
 import nomic.mobile.BuildConfig
+import kotlin.coroutines.resumeWithException
 
 /**
  * Implementation of the [INomicApiRepository][nomic.data.repositories.INomicApiRepository]
  *
  * @see [nomic.data.repositories.INomicApiRepository]
  */
-class NomicApiRepository(private val volleyRequester: VolleyRequester) : INomicApiRepository {
+class NomicApiRepository(private val volleyRequester: VolleyRequester, context: Context) : INomicApiRepository {
     private val baseUrl: String = BuildConfig.SERVER_ROOT_URI
+    private val mapper = ObjectMapper().registerKotlinModule()
+    private val queue: RequestQueue = Volley.newRequestQueue(context)
 
     override suspend fun getRulesAmendmentsList(gameId: Int, tag: String): List<RulesAmendmentsDTO> {
         val endpointUrl = "$baseUrl/rules_amendments/collect/$gameId"
-        return volleyRequester.stringRequest(endpointUrl, tag)
+        return suspendCancellableCoroutine { continuation ->
+            // Lambda functions response and error are built in callback functions for StringRequest
+            // response is based on Response.Listener which triggers when a successful 2XX call is returned from the API
+            // error is based on Response.ErrorListener which triggers when volley receives a bad status code
+            //
+            // Also the reason this was turned into an object is that was the only method of being able to include headers in the request call
+            val stringRequest = object : StringRequest(
+                Method.GET,
+                endpointUrl,
+                { response ->
+                    val responseObject = mapper.readValue<ResponseFormatDTO<List<RulesAmendmentsDTO>>>(response)
+                    if (responseObject.success) {
+                        continuation.resumeWith(Result.success(responseObject.data))
+                    }
+                },
+                { error ->
+                    error.printStackTrace()
+                    val statusCode = error.networkResponse?.statusCode
+                    var exception = Exception(error.message)
+                    when (statusCode) {
+                        400 -> exception = IllegalArgumentException(error.message)
+                        404 -> exception = EntityNotFoundException()
+                        else -> {}
+                    }
+                    continuation.resumeWithException(exception)
+                }
+            ) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): MutableMap<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Authorization"] = BuildConfig.USER_TOKEN
+                    return headers
+                }
+            }
+            stringRequest.tag = tag
+            queue.add(stringRequest)
+        }
     }
 
     override suspend fun enactRule(newRule: RuleDTO, tag: String): String {
@@ -52,7 +96,43 @@ class NomicApiRepository(private val volleyRequester: VolleyRequester) : INomicA
 
     override suspend fun getGamesList(size: Int, offset: Int, tag: String): List<GameDTO> {
         val endpointUrl = "$baseUrl/game/list?size=$size&offset=$offset"
-        return volleyRequester.stringRequest(endpointUrl, tag)
+        return suspendCancellableCoroutine { continuation ->
+            // Lambda functions response and error are built in callback functions for StringRequest
+            // response is based on Response.Listener which triggers when a successful 2XX call is returned from the API
+            // error is based on Response.ErrorListener which triggers when volley receives a bad status code
+            //
+            // Also the reason this was turned into an object is that was the only method of being able to include headers in the request call
+            val stringRequest = object : StringRequest(
+                Method.GET,
+                endpointUrl,
+                { response ->
+                    val responseObject = mapper.readValue<ResponseFormatDTO<List<GameDTO>>>(response)
+                    if (responseObject.success) {
+                        continuation.resumeWith(Result.success(responseObject.data))
+                    }
+                },
+                { error ->
+                    error.printStackTrace()
+                    val statusCode = error.networkResponse?.statusCode
+                    var exception = Exception(error.message)
+                    when (statusCode) {
+                        400 -> exception = IllegalArgumentException(error.message)
+                        404 -> exception = EntityNotFoundException()
+                        else -> {}
+                    }
+                    continuation.resumeWithException(exception)
+                }
+            ) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): MutableMap<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Authorization"] = BuildConfig.USER_TOKEN
+                    return headers
+                }
+            }
+            stringRequest.tag = tag
+            queue.add(stringRequest)
+        }
     }
 
     /**
