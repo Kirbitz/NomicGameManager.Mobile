@@ -4,13 +4,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import nomic.data.models.AmendmentModel
 import nomic.data.models.RuleRecyclerModel
 import nomic.data.models.RulesAmendmentsDTO
 import nomic.mobile.R
 import nomic.ui.utils.RuleRecyclerAdapter
+import nomic.ui.viewmodels.RulesListViewModel
+import nomic.ui.viewmodels.RulesListViewModelFactory
 
 class RulesListActivity : AppCompatActivity() {
     private lateinit var ruleRecycler: RecyclerView
@@ -25,9 +34,21 @@ class RulesListActivity : AppCompatActivity() {
         ruleRecycler = findViewById(R.id.rule_recycler)
         ruleRecycler.setHasFixedSize(true)
         ruleRecycler.layoutManager = LinearLayoutManager(this)
-        prepareData()
-        val ruleAdapter = RuleRecyclerAdapter(ruleList)
-        ruleRecycler.adapter = ruleAdapter
+//        prepareData()
+//        val ruleAdapter = RuleRecyclerAdapter(ruleList)
+//        ruleRecycler.adapter = ruleAdapter
+
+        val rulesListViewModel: RulesListViewModel by viewModels { RulesListViewModelFactory(2, this) }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                rulesListViewModel.uiState.collect { uiState ->
+                    Toast.makeText(applicationContext, uiState.rulesList.toString(), Toast.LENGTH_LONG).show()
+                    val ruleAdapter = RuleRecyclerAdapter(uiState.rulesList.map { RuleRecyclerModel(it) } as MutableList<RuleRecyclerModel>)
+                    ruleRecycler.adapter = ruleAdapter
+                }
+            }
+        }
 
         // Add the "add a rule" functionality
         addRule = findViewById(R.id.addrule_floatingbutton)

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.android.volley.toolbox.Volley
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import nomic.data.models.RulesAmendmentsDTO
 import nomic.data.repositories.NomicApiRepository
+import nomic.data.repositories.VolleyRequester
 
 // This viewmodel needs to offer the following functionality to the UI
 // 1) Retrieve/refresh the list of rules (On page load or when list is updated) - achieved simply by storing the required data
@@ -30,8 +32,12 @@ class RulesListViewModel(
     private val _uiState = MutableStateFlow(RulesListUiState(mutableListOf(), gameId))
     val uiState: StateFlow<RulesListUiState> = _uiState.asStateFlow()
 
+    private val volleyRequester by lazy {
+        VolleyRequester(context)
+    }
+
     private val nomicApiRepository by lazy {
-        // NomicApiRepository(context)
+         NomicApiRepository(volleyRequester)
     }
 
     // initialization
@@ -49,9 +55,13 @@ class RulesListViewModel(
             currentState.copy(
                 // This is fine for now, but eventually it needs to call the repo
                 // The repo should return a mutable list of some agreed upon model
-                // rulesList = nomicApiRepository.getRulesAmendmentsList(gameId, "loadRulesAmendments") as MutableList<RulesAmendmentsDTO>
+                 rulesList = nomicApiRepository.getRulesAmendmentsList(gameId, "loadRulesAmendments") as MutableList<RulesAmendmentsDTO>
             )
         }
+    }
+
+    fun getRulesAmendments(): MutableList<RulesAmendmentsDTO> {
+        return _uiState.value.rulesList
     }
 
     // Update the rules and amendments list (not clear what that means yet)
