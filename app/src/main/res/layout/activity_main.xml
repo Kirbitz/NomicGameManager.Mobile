@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nomic.ui.MainActivity" >
+    android:gravity="center|bottom"
+    android:orientation="vertical"
+    tools:context="nomic.ui.MainActivity"
+
+    >
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Click Me" />
-</FrameLayout>
+        android:id="@+id/createRule"
+        android:layout_width="223dp"
+        android:layout_height="200dp"
+        android:text="Create Rule" />
+
+    <Button
+        android:id="@+id/createAmend"
+        android:layout_width="223dp"
+        android:layout_height="200dp"
+        android:text="Create Amendment" />
+</LinearLayout>

@@ -13,18 +13,24 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import nomic.data.models.RuleRecyclerModel
 import nomic.mobile.R
+import nomic.mobile.databinding.ActivityMainBinding
+import nomic.mobile.databinding.ActivityMainBinding
+import nomic.ui.fragments.CreateRuleFragment
 import nomic.ui.utils.RuleRecyclerAdapter
 import nomic.ui.viewmodels.RulesListViewModel
 import nomic.ui.viewmodels.RulesListViewModelFactory
 
 class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickListener {
     private lateinit var ruleRecycler: RecyclerView
+    private lateinit var binding: ActivityMainBinding
     private lateinit var addRule: ImageButton
     private val rulesListViewModel: RulesListViewModel by viewModels { RulesListViewModelFactory(2, this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.rules_list)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
         // Grab the recyclerview by ID
         ruleRecycler = findViewById(R.id.rule_recycler)
@@ -47,8 +53,9 @@ class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickList
         }
 
         // Add the "add a rule" functionality
-        addRule = findViewById(R.id.addrule_floatingbutton)
+        addRule = findViewById(R.id.addRule)
         addRule.setOnClickListener {
+            CreateRuleFragment().show(supportFragmentManager, "newRuleTag")
             lifecycleScope.launch {
                 rulesListViewModel.createRule(1001, "Apple", "Banana")
             }
