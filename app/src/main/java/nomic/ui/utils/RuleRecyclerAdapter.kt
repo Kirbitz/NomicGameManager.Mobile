@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,12 +14,12 @@ import nomic.mobile.R
 class RuleRecyclerAdapter(val list: List<RuleRecyclerModel>)
     : RecyclerView.Adapter<RuleRecyclerAdapter.RuleViewHolder>() {
 
-    public interface RuleClickListener {
-        fun amendRule()
-        fun deleteRule()
+    interface RuleClickListener {
+        fun amendRule(ruleId: Int)
+        fun deleteRule(ruleId: Int)
     }
 
-    var ruleClickListener: RuleClickListener ?= null
+    lateinit var ruleClickListener: RuleClickListener
 
     inner class RuleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ruleListConstraintLayout : ConstraintLayout? = view.findViewById(R.id.rulelist_constraint_layout)
@@ -61,11 +60,11 @@ class RuleRecyclerAdapter(val list: List<RuleRecyclerModel>)
         }
 
         holder.amendButton?.setOnClickListener{
-            ruleClickListener?.amendRule()
+            ruleClickListener.amendRule(rule.rulesAmendmentsDTO.ruleId)
         }
 
         holder.deleteButton?.setOnClickListener {
-            ruleClickListener?.deleteRule()
+            ruleClickListener.deleteRule(rule.rulesAmendmentsDTO.ruleId)
         }
     }
 }
