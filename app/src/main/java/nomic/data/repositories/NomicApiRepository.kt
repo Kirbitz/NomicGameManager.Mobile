@@ -6,6 +6,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -20,7 +21,7 @@ import kotlin.coroutines.resumeWithException
  */
 class NomicApiRepository(private val volleyRequester: VolleyRequester, context: Context) : INomicApiRepository {
     private val baseUrl: String = BuildConfig.SERVER_ROOT_URI
-    private val mapper = ObjectMapper().registerKotlinModule()
+    private val mapper = ObjectMapper().registerKotlinModule().registerModule(JavaTimeModule())
     private val queue: RequestQueue = Volley.newRequestQueue(context)
 
     override suspend fun getRulesAmendmentsList(gameId: Int, tag: String): List<RulesAmendmentsDTO> {

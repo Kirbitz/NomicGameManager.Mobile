@@ -102,6 +102,7 @@ android {
 }
 
 dependencies {
+    // ViewModel
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
@@ -113,8 +114,14 @@ dependencies {
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation "androidx.activity:activity-ktx:1.6.0"
+    implementation "androidx.fragment:fragment-ktx:1.5.6"
+    implementation 'androidx.databinding:databinding-runtime:7.1.2'
+    implementation 'androidx.databinding:databinding-compiler:7.4.2'
     implementation 'androidx.activity:activity-ktx:1.6.0'
     implementation 'androidx.fragment:fragment-ktx:1.5.6'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
     testImplementation 'junit:junit:4.13.2'
 
