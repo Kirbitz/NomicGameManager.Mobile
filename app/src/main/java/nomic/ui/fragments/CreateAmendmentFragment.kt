@@ -1,28 +1,28 @@
 package nomic.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import nomic.data.models.RuleDTO
 import nomic.mobile.databinding.FragmentCreateAmendmentBinding
 
 
-class CreateAmendmentFragment : BottomSheetDialogFragment() {
+class CreateAmendmentFragment(private val ruleId: Int) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentCreateAmendmentBinding
-    private lateinit var mainViewModel: MainViewModel
+
+    interface SaveAmendRuleListener {
+        fun createNewAmendment(ruleId: Int, index: Int, title: String, description: String)
+    }
+
+    lateinit var saveAmendRuleClickListener: SaveAmendRuleListener
 
     /*
         Creates the view of bottom sheet
     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val activity = requireActivity()
-        mainViewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
         binding.submitAmendButton.setOnClickListener {
             saveAction()
         }
@@ -34,7 +34,7 @@ class CreateAmendmentFragment : BottomSheetDialogFragment() {
     */
     private fun saveAction() {
         //Regex for checking title and description
-        var pattern = Regex("^[A-Za-z0-9 ,.!?]*\$")
+        val pattern = Regex("^[A-Za-z0-9 ,.!?]*\$")
         val duration = Toast.LENGTH_SHORT
 
         if(!pattern.matches(binding.title.text.toString()))
@@ -50,8 +50,8 @@ class CreateAmendmentFragment : BottomSheetDialogFragment() {
             toast.show()
         }
         else{
-
             dismiss()
+            saveAmendRuleClickListener.createNewAmendment(ruleId, binding.index.text.toString().toInt(), binding.title.text.toString(), binding.description.text.toString())
         }
 
     }

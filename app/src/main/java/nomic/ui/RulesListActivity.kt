@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
 import nomic.data.models.RuleRecyclerModel
 import nomic.mobile.R
 import nomic.mobile.databinding.ActivityMainBinding
-import nomic.mobile.databinding.ActivityMainBinding
+import nomic.ui.fragments.CreateAmendmentFragment
 import nomic.ui.fragments.CreateRuleFragment
 import nomic.ui.utils.RuleRecyclerAdapter
 import nomic.ui.viewmodels.RulesListViewModel
 import nomic.ui.viewmodels.RulesListViewModelFactory
 
-class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickListener {
+class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickListener, CreateRuleFragment.SaveRuleListener, CreateAmendmentFragment.SaveAmendRuleListener {
     private lateinit var ruleRecycler: RecyclerView
     private lateinit var binding: ActivityMainBinding
     private lateinit var addRule: ImageButton
@@ -55,16 +55,17 @@ class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickList
         // Add the "add a rule" functionality
         addRule = findViewById(R.id.addRule)
         addRule.setOnClickListener {
-            CreateRuleFragment().show(supportFragmentManager, "newRuleTag")
-            lifecycleScope.launch {
-                rulesListViewModel.createRule(1001, "Apple", "Banana")
-            }
+            val createRuleFragment = CreateRuleFragment()
+            createRuleFragment.saveRuleClickListener = this
+            createRuleFragment.show(supportFragmentManager, "newRuleTag")
         }
 
     }
 
     override fun amendRule(ruleId: Int) {
-        Toast.makeText(this, "Pressed add AMENDMENT", Toast.LENGTH_SHORT).show()
+        val createAmendmentFragment = CreateAmendmentFragment(ruleId)
+        createAmendmentFragment.saveAmendRuleClickListener = this
+        createAmendmentFragment.show(supportFragmentManager, "newAmendmentTag")
     }
 
     override fun deleteRule(ruleId: Int) {
@@ -73,4 +74,20 @@ class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickList
         }
         Toast.makeText(this, "Rule Deleted", Toast.LENGTH_SHORT).show()
     }
+
+    override fun createNewRule(index: Int, title: String, description: String) {
+        lifecycleScope.launch {
+            rulesListViewModel.createRule(index, title, description)
+        }
+        Toast.makeText(this, "Rule Created", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun createNewAmendment(ruleId: Int, index: Int, title: String, description: String) {
+        lifecycleScope.launch {
+            rulesListViewModel.amendRule(ruleId, index, title, description)
+        }
+        Toast.makeText(this, "Amendment Created", Toast.LENGTH_SHORT).show()
+    }
+
+
 }

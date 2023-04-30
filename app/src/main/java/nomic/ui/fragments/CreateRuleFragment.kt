@@ -1,20 +1,22 @@
 package nomic.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import nomic.mobile.databinding.FragmentCreateRuleBinding
-import nomic.ui.viewmodels.RulesListViewModel
 
 
 class CreateRuleFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentCreateRuleBinding
+
+    interface SaveRuleListener {
+        fun createNewRule(index: Int, title: String, description: String)
+    }
+
+    lateinit var saveRuleClickListener: SaveRuleListener
     //private lateinit var viewModel: RulesListViewModel
 
     /*
@@ -22,8 +24,6 @@ class CreateRuleFragment : BottomSheetDialogFragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val activity = requireActivity()
-        //viewModel = ViewModelProvider(activity).get(RulesListViewModel::class.java)
         binding.submitRuleButton.setOnClickListener {
             saveAction()
         }
@@ -36,7 +36,7 @@ class CreateRuleFragment : BottomSheetDialogFragment() {
     private fun saveAction() {
 
         //Regex for checking title and description
-        var pattern = Regex("^[A-Za-z0-9 ,.!?]*\$")
+        val pattern = Regex("^[A-Za-z0-9 ,.!?]*\$")
         val duration = Toast.LENGTH_SHORT
 
         if(!pattern.matches(binding.title.text.toString()))
@@ -56,6 +56,7 @@ class CreateRuleFragment : BottomSheetDialogFragment() {
         else
         {
             dismiss()
+            saveRuleClickListener.createNewRule(binding.index.text.toString().toInt(), binding.title.text.toString(), binding.description.text.toString())
         }
 
     }
