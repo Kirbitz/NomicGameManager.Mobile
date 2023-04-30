@@ -1,17 +1,13 @@
 package nomic.ui.utils
 
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import nomic.data.models.GameDTO
 import nomic.mobile.R
-import nomic.ui.RulesListActivity
 
 class RecentGamesAdapter(
     private val games: MutableList<GameDTO>

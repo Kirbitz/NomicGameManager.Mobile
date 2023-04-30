@@ -10,14 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import nomic.data.models.GameDTO
 import nomic.mobile.R
 import nomic.mobile.databinding.MainMenuPageBinding
 import nomic.ui.ConfigureGameActivity
-import nomic.ui.RulesListActivity
 import nomic.ui.utils.RecentGamesAdapter
 import nomic.ui.viewmodels.MainMenuViewModel
 import nomic.ui.viewmodels.MainMenuViewModelFactory

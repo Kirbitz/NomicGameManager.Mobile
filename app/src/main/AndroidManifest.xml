@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name="nomic.ui.ConfigureGameActivity" />
-        <activity android:name="nomic.ui.RulesListActivity" />
+        <activity android:name="nomic.ui.activities.RulesListActivity" />
     </application>
 
 </manifest>

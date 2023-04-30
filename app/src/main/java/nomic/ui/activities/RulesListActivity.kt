@@ -1,4 +1,4 @@
-package nomic.ui
+package nomic.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import nomic.data.models.RuleRecyclerModel
 import nomic.mobile.R
-import nomic.mobile.databinding.ActivityMainBinding
+import nomic.mobile.databinding.RulesListBinding
 import nomic.ui.fragments.CreateAmendmentFragment
 import nomic.ui.fragments.CreateRuleFragment
 import nomic.ui.utils.AmendmentRecyclerAdapter
@@ -27,7 +27,7 @@ class RulesListActivity : AppCompatActivity(),
     CreateRuleFragment.SaveRuleListener,
     CreateAmendmentFragment.SaveAmendRuleListener {
     private lateinit var ruleRecycler: RecyclerView
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: RulesListBinding
     private lateinit var addRule: ImageButton
     private val rulesListViewModel: RulesListViewModel by viewModels { RulesListViewModelFactory(intent.getIntExtra("GameId", 2), this) }
 
@@ -35,7 +35,7 @@ class RulesListActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.rules_list)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = RulesListBinding.inflate(layoutInflater)
 
         // Grab the recyclerview by ID
         ruleRecycler = findViewById(R.id.rule_recycler)
