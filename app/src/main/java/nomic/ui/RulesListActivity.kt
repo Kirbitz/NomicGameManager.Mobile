@@ -15,11 +15,12 @@ import nomic.data.models.AmendmentModel
 import nomic.data.models.RuleRecyclerModel
 import nomic.data.models.RulesAmendmentsDTO
 import nomic.mobile.R
+import nomic.ui.utils.AmendmentRecyclerAdapter
 import nomic.ui.utils.RuleRecyclerAdapter
 import nomic.ui.viewmodels.RulesListViewModel
 import nomic.ui.viewmodels.RulesListViewModelFactory
 
-class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickListener {
+class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickListener, AmendmentRecyclerAdapter.AmendClickListener {
     private lateinit var ruleRecycler: RecyclerView
     private lateinit var ruleList: MutableList<RuleRecyclerModel>
     private lateinit var addRule: ImageButton
@@ -37,6 +38,7 @@ class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickList
         val ruleRecyclerModelList = rulesListViewModel.getRulesAmendments().map { rule -> RuleRecyclerModel(rule, false) }
         val ruleAdapter = RuleRecyclerAdapter(ruleRecyclerModelList)
         ruleAdapter.ruleClickListener = this
+        ruleAdapter.amendClickListener = this
         ruleRecycler.adapter = ruleAdapter
 
 
@@ -68,5 +70,9 @@ class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickList
 
     override fun deleteRule() {
         Toast.makeText(this, "Pressed delete RULE", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun deleteAmendment() {
+        Toast.makeText(this, "Pressed delete AMENDMENT", Toast.LENGTH_SHORT).show()
     }
 }

@@ -21,6 +21,7 @@ class RuleRecyclerAdapter(val list: List<RuleRecyclerModel>)
     }
 
     var ruleClickListener: RuleClickListener ?= null
+    var amendClickListener: AmendmentRecyclerAdapter.AmendClickListener ?= null
 
     inner class RuleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ruleListConstraintLayout : ConstraintLayout? = view.findViewById(R.id.rulelist_constraint_layout)
@@ -49,6 +50,7 @@ class RuleRecyclerAdapter(val list: List<RuleRecyclerModel>)
         holder.amendRecycler?.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
 
         val amendmentAdapter = AmendmentRecyclerAdapter(rule.rulesAmendmentsDTO.amendments)
+        amendmentAdapter.amendClickListener = amendClickListener
         holder.amendRecycler?.adapter = amendmentAdapter
 
         // Make the list actually expand

@@ -9,10 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import nomic.data.models.AmendmentDTO
-import nomic.data.models.ModifyRuleMutabilityDTO
-import nomic.data.models.RuleDTO
-import nomic.data.models.RulesAmendmentsDTO
+import nomic.data.models.*
 import nomic.data.repositories.NomicApiRepository
 import nomic.data.repositories.VolleyRequester
 
@@ -57,7 +54,8 @@ class RulesListViewModel(
             currentState.copy(
                 // This is fine for now, but eventually it needs to call the repo
                 // The repo should return a mutable list of some agreed upon model
-                 rulesList = nomicApiRepository.getRulesAmendmentsList(gameId, "loadRulesAmendments") as MutableList<RulesAmendmentsDTO>
+                rulesList = prepareData()
+                // rulesList = nomicApiRepository.getRulesAmendmentsList(gameId, "loadRulesAmendments") as MutableList<RulesAmendmentsDTO>
             )
         }
     }
@@ -116,6 +114,27 @@ class RulesListViewModel(
     // This gets called when the ViewModel is destroyed/cleared
     override fun onCleared() {
         super.onCleared()
+    }
+
+    private fun prepareData(): MutableList<RulesAmendmentsDTO> {
+        val amends = mutableListOf(
+            AmendmentModel(1, 123456789, ":)", "Hello Amendment!"),
+            AmendmentModel(2, 2, ":(", "Some ridiculously long amendment title that won't fit in the textview!"),
+            AmendmentModel(3, 3, ":|", "Hello Amendthree!")
+        )
+        val amendsTwo = amends.toMutableList()
+        val amendsThree = amends.toMutableList()
+
+        val ruleOne = RulesAmendmentsDTO(1, 1, "What happens if I give the title of the amendment some ridiculously long name",":)", false, amends)
+        val ruleTwo = RulesAmendmentsDTO(1, 1234, "Hello Rule!", "Hi", false, amendsTwo)
+        val ruleThree = RulesAmendmentsDTO(1, 5678, "Hello Rule!", "Hi", false, amendsThree)
+
+        return mutableListOf(
+            ruleOne,
+            ruleTwo,
+            ruleThree,
+        )
+
     }
 }
 

@@ -12,6 +12,12 @@ import nomic.mobile.R
 
 class AmendmentRecyclerAdapter (val amendList: List<AmendmentModel>): RecyclerView.Adapter<AmendmentRecyclerAdapter.AmendmentViewHolder>() {
 
+    public interface AmendClickListener {
+        fun deleteAmendment()
+    }
+
+    var amendClickListener: AmendClickListener ?= null
+
     // holds views?
     inner class AmendmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val amendIndex : TextView = itemView.findViewById(R.id.amend_index)
@@ -31,7 +37,8 @@ class AmendmentRecyclerAdapter (val amendList: List<AmendmentModel>): RecyclerVi
         holder.amendTitle.text = amendList[position].title
 
         holder.deleteAmendment.setOnClickListener {
-            Toast.makeText(holder.itemView.context, "Pressed delete AMENDMENT", Toast.LENGTH_SHORT).show()
+            amendClickListener?.deleteAmendment()
+            // Toast.makeText(holder.itemView.context, "Pressed delete AMENDMENT", Toast.LENGTH_SHORT).show()
         }
     }
 
