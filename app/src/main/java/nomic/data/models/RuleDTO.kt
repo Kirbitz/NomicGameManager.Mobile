@@ -17,6 +17,6 @@ data class RuleDTO(
     val description: String,
     val title: String,
     val gameID: Int,
-    val active: Boolean,
-    val mutable: Boolean
+    val active: Boolean = true,
+    val mutable: Boolean = true
 )

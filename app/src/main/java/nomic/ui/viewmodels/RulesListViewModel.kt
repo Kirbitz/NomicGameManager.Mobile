@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.android.volley.toolbox.Volley
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import nomic.data.models.AmendmentDTO
+import nomic.data.models.ModifyRuleMutabilityDTO
+import nomic.data.models.RuleDTO
 import nomic.data.models.RulesAmendmentsDTO
 import nomic.data.repositories.NomicApiRepository
 import nomic.data.repositories.VolleyRequester
@@ -71,26 +73,44 @@ class RulesListViewModel(
 
     // This is the minimum required data for making a new rule. Other data either defaults or has to come from environment somehow
     fun createRule(index: Int, title: String, description: String) {
-        // Call the repo to create the amendment
-
+        // Call the repo to create the rule
+        val newRule = RuleDTO(-1, index, description, title, gameId)
+        viewModelScope.launch {
+            nomicApiRepository.enactRule(newRule, "Create Rule")
+            loadRulesAmendments()
+        }
         // Reload the rules and amendments
     }
 
     // Amend a rule in the local list
-    fun amendRule(ruleId: Int, index: Int, description: String) {
-
+    fun amendRule(ruleId: Int, index: Int, title: String, description: String) {
+        val newAmendment = AmendmentDTO(ruleId, -1, index, title, description)
+        viewModelScope.launch {
+            nomicApiRepository.amendRule(newAmendment, "Amend Rule")
+            loadRulesAmendments()
+        }
     }
 
     fun repealRule(ruleId: Int) {
-
+        viewModelScope.launch {
+            nomicApiRepository.repealRule(ruleId, "Repeal Rule")
+            loadRulesAmendments()
+        }
     }
 
-    fun repealAmendment(ruleId: Int, amendId: Int) {
-
+    fun repealAmendment(amendId: Int) {
+        viewModelScope.launch {
+            nomicApiRepository.repealAmendment(amendId, "Repeal Amendment")
+            loadRulesAmendments()
+        }
     }
 
-    fun transmuteRule(ruleId: Int) {
-
+    fun transmuteRule(ruleId: Int, isMutable: Boolean) {
+        val transmuteModel = ModifyRuleMutabilityDTO(isMutable)
+        viewModelScope.launch {
+            nomicApiRepository.transmuteRule(ruleId, transmuteModel, "Transmute Rule")
+            loadRulesAmendments()
+        }
     }
 
     // This gets called when the ViewModel is destroyed/cleared
@@ -105,7 +125,7 @@ data class RulesListUiState(
     val gameId: Int
 )
 
-class RulesListViewModelFactory(val gameId: Int, val context: Context) :
+class RulesListViewModelFactory(private val gameId: Int, private val context: Context) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return RulesListViewModel(gameId, context) as T
