@@ -21,10 +21,11 @@ import nomic.ui.utils.RuleRecyclerAdapter
 import nomic.ui.viewmodels.RulesListViewModel
 import nomic.ui.viewmodels.RulesListViewModelFactory
 
-class RulesListActivity : AppCompatActivity() {
+class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickListener {
     private lateinit var ruleRecycler: RecyclerView
     private lateinit var ruleList: MutableList<RuleRecyclerModel>
     private lateinit var addRule: ImageButton
+    private val rulesListViewModel: RulesListViewModel by viewModels { RulesListViewModelFactory(2, this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,22 +35,23 @@ class RulesListActivity : AppCompatActivity() {
         ruleRecycler = findViewById(R.id.rule_recycler)
         ruleRecycler.setHasFixedSize(true)
         ruleRecycler.layoutManager = LinearLayoutManager(this)
-//        prepareData()
-//        val ruleAdapter = RuleRecyclerAdapter(ruleList)
-//        ruleRecycler.adapter = ruleAdapter
 
-        val rulesListViewModel: RulesListViewModel by viewModels { RulesListViewModelFactory(2, this) }
+        val ruleRecyclerModelList = rulesListViewModel.getRulesAmendments().map { rule -> RuleRecyclerModel(rule, false) }
+        val ruleAdapter = RuleRecyclerAdapter(ruleRecyclerModelList)
+        ruleAdapter.ruleClickListener = this
+        ruleRecycler.adapter = ruleAdapter
 
-        lifecycleScope.launch {
+
+        /*lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 rulesListViewModel.uiState.collect { uiState ->
                     if (uiState.rulesList.size > 0) {
-                        val ruleAdapter = RuleRecyclerAdapter(uiState.rulesList.map { RuleRecyclerModel(it) } as MutableList<RuleRecyclerModel>)
+                        val ruleAdapter = RuleRecyclerAdapter(rulesListViewModel)
                         ruleRecycler.adapter = ruleAdapter
                     }
                 }
             }
-        }
+        }*/
 
         // Add the "add a rule" functionality
         addRule = findViewById(R.id.addrule_floatingbutton)
@@ -59,24 +61,11 @@ class RulesListActivity : AppCompatActivity() {
 
     }
 
-    private fun prepareData() {
-        val amends = mutableListOf(
-            AmendmentModel(1, 123456789, ":)", "Hello Amendment!"),
-            AmendmentModel(2, 2, ":(", "Some ridiculously long amendment title that won't fit in the textview!"),
-            AmendmentModel(3, 3, ":|", "Hello Amendthree!")
-        )
-        val amendsTwo = amends.toMutableList()
-        val amendsThree = amends.toMutableList()
+    override fun amendRule() {
+        Toast.makeText(this, "Pressed add AMENDMENT", Toast.LENGTH_SHORT).show()
+    }
 
-        val ruleOne = RulesAmendmentsDTO(1, 1, "What happens if I give the title of the amendment some ridiculously long name",":)", false, amends)
-        val ruleTwo = RulesAmendmentsDTO(1, 1234, "Hello Rule!", "Hi", false, amendsTwo)
-        val ruleThree = RulesAmendmentsDTO(1, 5678, "Hello Rule!", "Hi", false, amendsThree)
-
-        ruleList = mutableListOf(
-            RuleRecyclerModel(ruleOne, false),
-            RuleRecyclerModel(ruleTwo, false),
-            RuleRecyclerModel(ruleThree, false),
-        )
-
+    override fun deleteRule() {
+        Toast.makeText(this, "Pressed delete RULE", Toast.LENGTH_SHORT).show()
     }
 }

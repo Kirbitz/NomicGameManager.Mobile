@@ -12,8 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import nomic.data.models.RuleRecyclerModel
 import nomic.mobile.R
 
-class RuleRecyclerAdapter(val list: MutableList<RuleRecyclerModel>)
+class RuleRecyclerAdapter(val list: List<RuleRecyclerModel>)
     : RecyclerView.Adapter<RuleRecyclerAdapter.RuleViewHolder>() {
+
+    public interface RuleClickListener {
+        fun amendRule()
+        fun deleteRule()
+    }
+
+    var ruleClickListener: RuleClickListener ?= null
 
     inner class RuleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ruleListConstraintLayout : ConstraintLayout? = view.findViewById(R.id.rulelist_constraint_layout)
@@ -53,12 +60,12 @@ class RuleRecyclerAdapter(val list: MutableList<RuleRecyclerModel>)
             notifyItemChanged(position)
         }
 
-        holder.amendButton?.setOnClickListener {
-            Toast.makeText(holder.itemView.context, "Pressed add AMENDMENT", Toast.LENGTH_SHORT).show()
+        holder.amendButton?.setOnClickListener{
+            ruleClickListener?.amendRule()
         }
 
         holder.deleteButton?.setOnClickListener {
-            Toast.makeText(holder.itemView.context, "Pressed delete RULE", Toast.LENGTH_SHORT).show()
+            ruleClickListener?.deleteRule()
         }
     }
 }
