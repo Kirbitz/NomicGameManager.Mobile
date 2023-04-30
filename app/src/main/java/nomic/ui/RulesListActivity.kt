@@ -8,10 +8,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import nomic.data.models.AmendmentModel
 import nomic.data.models.RuleRecyclerModel
@@ -56,6 +54,9 @@ class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickList
         // Add the "add a rule" functionality
         addRule = findViewById(R.id.addrule_floatingbutton)
         addRule.setOnClickListener {
+            lifecycleScope.launch {
+                rulesListViewModel.createRule(1001, "Apple", "Banana")
+            }
             Toast.makeText(this, "Pressed add RULE", Toast.LENGTH_SHORT).show()
         }
 
