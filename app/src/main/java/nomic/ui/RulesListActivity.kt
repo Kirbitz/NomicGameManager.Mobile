@@ -29,7 +29,7 @@ class RulesListActivity : AppCompatActivity(),
     private lateinit var ruleRecycler: RecyclerView
     private lateinit var binding: ActivityMainBinding
     private lateinit var addRule: ImageButton
-    private val rulesListViewModel: RulesListViewModel by viewModels { RulesListViewModelFactory(2, this) }
+    private val rulesListViewModel: RulesListViewModel by viewModels { RulesListViewModelFactory(intent.getIntExtra("GameId", 2), this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
