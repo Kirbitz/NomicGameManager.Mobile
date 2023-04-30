@@ -9,9 +9,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import mobile.game.manager.nomic.databinding.MainMenuPageBinding
+import nomic.data.models.GameDTO
+import nomic.mobile.databinding.MainMenuPageBinding
 import nomic.ui.ConfigureGameActivity
 import nomic.ui.RulesListActivity
 import nomic.ui.utils.RecentGamesAdapter
@@ -35,10 +37,12 @@ class MainMenuActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Creates the viewModel that will collect information relevant to the MainMenuPage
-        val viewModel: MainMenuViewModel by viewModels { MainMenuViewModelFactory(2, this) }
+        val viewModel: MainMenuViewModel by viewModels { MainMenuViewModelFactory(3, this) }
+
+        Log.d("Games", viewModel.getGames().toString())
 
         // Creates an adapter that will use the gamesList from the viewModel
-        recentGamesAdapter = RecentGamesAdapter(viewModel.getGames())
+        recentGamesAdapter = RecentGamesAdapter(viewModel.getGames() as MutableList<GameDTO>)
 
         // Changes the binding for the RecyclerView to use the adapter
         binding.rvRecentGames.adapter = recentGamesAdapter
@@ -66,5 +70,7 @@ class MainMenuActivity : AppCompatActivity() {
             val intent = Intent(this, RulesListActivity::class.java)
             startActivity(intent)
         }
+
+        Log.d("Games", viewModel.getGames().toString())
     }
 }

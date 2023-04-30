@@ -3,7 +3,7 @@ package nomic.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import mobile.game.manager.nomic.databinding.ActivityTempBinding
+import nomic.mobile.databinding.ActivityTempBinding
 import nomic.ui.activities.MainMenuActivity
 
 // Dummy file for testing changing of activity intent in the MainMenuActivity

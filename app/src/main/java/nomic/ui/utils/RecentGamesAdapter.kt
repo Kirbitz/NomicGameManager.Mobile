@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import mobile.game.manager.nomic.R
 import nomic.data.models.GameDTO
+import nomic.mobile.R
 
 class RecentGamesAdapter(
     private val games: MutableList<GameDTO>
