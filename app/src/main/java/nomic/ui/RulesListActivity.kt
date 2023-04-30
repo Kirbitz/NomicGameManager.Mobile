@@ -16,11 +16,16 @@ import nomic.mobile.R
 import nomic.mobile.databinding.ActivityMainBinding
 import nomic.ui.fragments.CreateAmendmentFragment
 import nomic.ui.fragments.CreateRuleFragment
+import nomic.ui.utils.AmendmentRecyclerAdapter
 import nomic.ui.utils.RuleRecyclerAdapter
 import nomic.ui.viewmodels.RulesListViewModel
 import nomic.ui.viewmodels.RulesListViewModelFactory
 
-class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickListener, CreateRuleFragment.SaveRuleListener, CreateAmendmentFragment.SaveAmendRuleListener {
+class RulesListActivity : AppCompatActivity(),
+    RuleRecyclerAdapter.RuleClickListener,
+    AmendmentRecyclerAdapter.AmendClickListener,
+    CreateRuleFragment.SaveRuleListener,
+    CreateAmendmentFragment.SaveAmendRuleListener {
     private lateinit var ruleRecycler: RecyclerView
     private lateinit var binding: ActivityMainBinding
     private lateinit var addRule: ImageButton
@@ -37,7 +42,7 @@ class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickList
         ruleRecycler.setHasFixedSize(true)
         ruleRecycler.layoutManager = LinearLayoutManager(this)
 
-        val ruleClickContext = this
+        val clickContext = this
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -45,7 +50,8 @@ class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickList
                     if (uiState.rulesList.size > 0) {
                         val ruleRecyclerModelList = uiState.rulesList.map { rule -> RuleRecyclerModel(rule) }
                         val ruleAdapter = RuleRecyclerAdapter(ruleRecyclerModelList)
-                        ruleAdapter.ruleClickListener = ruleClickContext
+                        ruleAdapter.ruleClickListener = clickContext
+                        ruleAdapter.amendClickListener = clickContext
                         ruleRecycler.adapter = ruleAdapter
                     }
                 }
@@ -89,5 +95,10 @@ class RulesListActivity : AppCompatActivity(), RuleRecyclerAdapter.RuleClickList
         Toast.makeText(this, "Amendment Created", Toast.LENGTH_SHORT).show()
     }
 
-
+    override fun deleteAmendment(amendId: Int) {
+        lifecycleScope.launch {
+            rulesListViewModel.repealAmendment(amendId)
+        }
+        Toast.makeText(this, "Amendment Repealed", Toast.LENGTH_SHORT).show()
+    }
 }

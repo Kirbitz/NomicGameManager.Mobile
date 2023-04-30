@@ -5,12 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import nomic.data.models.AmendmentModel
 import nomic.mobile.R
 
 class AmendmentRecyclerAdapter (val amendList: List<AmendmentModel>): RecyclerView.Adapter<AmendmentRecyclerAdapter.AmendmentViewHolder>() {
+
+    interface AmendClickListener {
+        fun deleteAmendment(amendId: Int)
+    }
+
+    var amendClickListener: AmendClickListener ?= null
 
     // holds views?
     inner class AmendmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -31,7 +36,7 @@ class AmendmentRecyclerAdapter (val amendList: List<AmendmentModel>): RecyclerVi
         holder.amendTitle.text = amendList[position].title
 
         holder.deleteAmendment.setOnClickListener {
-            Toast.makeText(holder.itemView.context, "Pressed delete AMENDMENT", Toast.LENGTH_SHORT).show()
+            amendClickListener?.deleteAmendment(amendList[position].amendId)
         }
     }
 
