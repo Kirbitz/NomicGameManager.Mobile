@@ -1,18 +1,28 @@
 package nomic.ui.utils
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import nomic.data.models.GameDTO
 import nomic.mobile.R
+import nomic.ui.RulesListActivity
 
 class RecentGamesAdapter(
     private val games: MutableList<GameDTO>
 ) : RecyclerView.Adapter<RecentGamesAdapter.ViewHolder>() {
+
+    interface PlayClickListener {
+        fun playGame(gameId: Int?)
+    }
+
+    var playClickListener: PlayClickListener ?= null
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var gameTitle: TextView
         var createDate: TextView
@@ -38,7 +48,7 @@ class RecentGamesAdapter(
         holder.createDate.text = games[i].createDate.toString()
         // Todo: Change functionality of Play Button to change intent to rules list activity with proper game id sent over
         holder.playBtn.setOnClickListener {
-            Log.d("Game " + games[i].gameId.toString(), "Hello")
+            playClickListener?.playGame(games[i].gameId)
         }
     }
 

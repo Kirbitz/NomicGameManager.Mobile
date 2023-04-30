@@ -16,7 +16,7 @@ class RulesListActivity : AppCompatActivity() {
         _binding = ActivityTempBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.textView.text = "Configure Game Page"
+        binding.textView.text = "Rules List Page"
 
         binding.button.setOnClickListener {
             val intent = Intent(this, MainMenuActivity::class.java)

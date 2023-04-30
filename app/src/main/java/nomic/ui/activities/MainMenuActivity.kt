@@ -9,10 +9,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import nomic.data.models.GameDTO
+import nomic.mobile.R
 import nomic.mobile.databinding.MainMenuPageBinding
 import nomic.ui.ConfigureGameActivity
 import nomic.ui.RulesListActivity
@@ -20,14 +22,13 @@ import nomic.ui.utils.RecentGamesAdapter
 import nomic.ui.viewmodels.MainMenuViewModel
 import nomic.ui.viewmodels.MainMenuViewModelFactory
 
-class MainMenuActivity : AppCompatActivity() {
+class MainMenuActivity : AppCompatActivity(),
+    RecentGamesAdapter.PlayClickListener {
 
-    // Initializes the binding to the main_menu_page.xml layout
     private var _binding: MainMenuPageBinding? = null
     private val binding get() = _binding!!
-    // Initializes the adapter to the recycler view for recent games
-    private lateinit var recentGamesAdapter: RecentGamesAdapter
-
+    private val mainMenuViewModel: MainMenuViewModel by viewModels { MainMenuViewModelFactory(3, this) }
+    private lateinit var rvRecentGames: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,25 +37,24 @@ class MainMenuActivity : AppCompatActivity() {
         _binding = MainMenuPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Creates the viewModel that will collect information relevant to the MainMenuPage
-        val viewModel: MainMenuViewModel by viewModels { MainMenuViewModelFactory(3, this) }
+        rvRecentGames = findViewById(R.id.rvRecentGames)
+        rvRecentGames.layoutManager = LinearLayoutManager(this)
 
-        Log.d("Games", viewModel.getGames().toString())
+        val clickContext = this
 
-        // Creates an adapter that will use the gamesList from the viewModel
-        recentGamesAdapter = RecentGamesAdapter(viewModel.getGames() as MutableList<GameDTO>)
-
-        // Changes the binding for the RecyclerView to use the adapter
-        binding.rvRecentGames.adapter = recentGamesAdapter
-        binding.rvRecentGames.layoutManager = LinearLayoutManager(this)
-
-        // When activity is started collect the uiState
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect()
+                mainMenuViewModel.uiState.collect { uiState ->
+                    if (uiState.gamesList.size > 0) {
+                        val gameList = uiState.gamesList
+                        val recentGamesAdapter = RecentGamesAdapter(gameList)
+                        recentGamesAdapter.playClickListener = clickContext
+                        rvRecentGames.adapter = recentGamesAdapter
+
+                    }
+                }
             }
         }
-
         // Set the Create Game button to change intent to the Game Configuration activity
         binding.btnCreateGame.setOnClickListener {
             val intent = Intent(this, ConfigureGameActivity::class.java)
@@ -67,10 +67,13 @@ class MainMenuActivity : AppCompatActivity() {
 
         // Set the Load Game button to change intent to the Rules List (game page) activity
         binding.btnLoadGame.setOnClickListener {
-            val intent = Intent(this, RulesListActivity::class.java)
-            startActivity(intent)
+            Log.d("Load Game", "Hello")
         }
+    }
 
-        Log.d("Games", viewModel.getGames().toString())
+    override fun playGame(gameId: Int?) {
+        val intent = Intent(this, RulesListActivity::class.java)
+        intent.putExtra("GameId", gameId)
+        startActivity(intent)
     }
 }

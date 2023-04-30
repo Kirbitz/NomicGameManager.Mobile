@@ -28,7 +28,7 @@ class MainMenuViewModel(
         VolleyRequester(context)
     }
     private val nomicApiRepository by lazy {
-        NomicApiRepository(volleyRequester)
+        NomicApiRepository(volleyRequester, context)
     }
 
     // initialization
