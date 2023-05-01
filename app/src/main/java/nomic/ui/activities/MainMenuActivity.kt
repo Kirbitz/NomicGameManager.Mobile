@@ -33,11 +33,13 @@ class MainMenuActivity : AppCompatActivity(),
         _binding = MainMenuPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Set up the recycler view
         rvRecentGames = findViewById(R.id.rvRecentGames)
         rvRecentGames.layoutManager = LinearLayoutManager(this)
 
         val clickContext = this
 
+        // Lifecycle to create and update the view model and adapter for the recycler view
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainMenuViewModel.uiState.collect { uiState ->
@@ -61,12 +63,12 @@ class MainMenuActivity : AppCompatActivity(),
             Log.d("Join Game", "Hello")
         }
 
-        // Set the Load Game button to change intent to the Rules List (game page) activity
         binding.btnLoadGame.setOnClickListener {
             Log.d("Load Game", "Hello")
         }
     }
 
+    // Function to change to the RulesListActivity for the game selected
     override fun playGame(gameId: Int?) {
         val intent = Intent(this, RulesListActivity::class.java)
         intent.putExtra("GameId", gameId)
