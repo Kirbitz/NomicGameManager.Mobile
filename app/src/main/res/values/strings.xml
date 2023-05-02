@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">NomicGameManagerMobile</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="placeholderConfirmation">Are you sure you \n wish to proceed?</string>
 </resources>
