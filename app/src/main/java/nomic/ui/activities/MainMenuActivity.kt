@@ -66,6 +66,10 @@ class MainMenuActivity : AppCompatActivity(),
         binding.btnLoadGame.setOnClickListener {
             Log.d("Load Game", "Hello")
         }
+
+        binding.btnMic.setOnClickListener {
+            // Change Activity
+        }
     }
 
     // Function to change to the RulesListActivity for the game selected
