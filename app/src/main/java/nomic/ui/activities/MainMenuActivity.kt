@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import nomic.domain.MicIntegration.androidVoiceCommands.MicrophoneHandler
 import nomic.mobile.R
 import nomic.mobile.databinding.MainMenuPageBinding
-import nomic.ui.ConfigureGameActivity
 import nomic.ui.utils.RecentGamesAdapter
 import nomic.ui.viewmodels.MainMenuViewModel
 import nomic.ui.viewmodels.MainMenuViewModelFactory
@@ -56,7 +55,7 @@ class MainMenuActivity : AppCompatActivity(),
         }
         // Set the Create Game button to change intent to the Game Configuration activity
         binding.btnCreateGame.setOnClickListener {
-            val intent = Intent(this, ConfigureGameActivity::class.java)
+            val intent = Intent(this, GameConfigurationActivity::class.java)
             startActivity(intent)
         }
 

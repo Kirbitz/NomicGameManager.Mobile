@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.TextView
-import mobile.game.manager.nomic.R
+import nomic.mobile.R
 
 
 class IntialPlayersListAdapter(

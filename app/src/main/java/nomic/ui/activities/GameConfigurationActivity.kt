@@ -1,4 +1,4 @@
-package nomic.ui
+package nomic.ui.activities
 
 import android.os.Bundle
 import android.widget.Button
@@ -8,8 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import mobile.game.manager.nomic.R
-import nomic.ui.activities.IntialPlayersListAdapter
+import nomic.mobile.R
 import nomic.ui.viewmodels.GameConfigurationViewModel
 
 class GameConfigurationActivity :AppCompatActivity() {
