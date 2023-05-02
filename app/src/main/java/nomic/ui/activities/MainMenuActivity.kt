@@ -11,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import nomic.domain.MicIntegration.androidVoiceCommands.MicrophoneHandler
 import nomic.mobile.R
 import nomic.mobile.databinding.MainMenuPageBinding
 import nomic.ui.ConfigureGameActivity
@@ -69,6 +70,8 @@ class MainMenuActivity : AppCompatActivity(),
 
         binding.btnMic.setOnClickListener {
             // Change Activity
+            val intent = Intent(this, MicrophoneHandler::class.java)
+            startActivity(intent)
         }
     }
 
