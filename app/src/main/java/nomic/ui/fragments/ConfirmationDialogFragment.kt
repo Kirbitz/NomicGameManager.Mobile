@@ -4,64 +4,52 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import mobile.game.manager.nomic.R
+import nomic.mobile.databinding.ConfirmationDialogFragmentBinding
 
-class ConfirmationDialogFragment: BottomSheetDialogFragment() {
+class ConfirmationDialogFragment(
+    private val deletingRule: Boolean,
+    private val ruleAmendId: Int
+): BottomSheetDialogFragment() {
+    private lateinit var binding: ConfirmationDialogFragmentBinding
 
-    private var callback : suspend ()->Unit = {}
-
-    val confirmationText by lazy {
-        requireView().findViewById<TextView>(R.id.confirmationText)
+    interface ConfirmClickListener {
+        fun confirmClick(deletingRule: Boolean, ruleAmendId: Int)
     }
 
-    val confirmationButton by lazy {
-        requireView().findViewById<Button>(R.id.confirmationButton)
-    }
-
-    val cancelButton by lazy {
-        requireView().findViewById<Button>(R.id.cancelButton)
-    }
+    lateinit var confirmClickListener: ConfirmClickListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.confirmation_dialog_fragment, container, false)
+        binding = ConfirmationDialogFragmentBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bundle = savedInstanceState ?: requireArguments()
-        confirmationText.text = bundle.getString("confirmationText")
+        binding.confirmationText.text = if (deletingRule) "Confirm Delete Rule $ruleAmendId" else "Confirm Delete Amendment $ruleAmendId"
 
-        confirmationButton.setOnClickListener {
-            suspend {
-                this.callback()
-                this.dismiss()
-            }
+        binding.confirmationButton.setOnClickListener {
+            this.dismiss()
+            confirmClickListener.confirmClick(deletingRule, ruleAmendId)
         }
 
-        cancelButton.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             // Hides the dialog, but is it the right way to do it?
             this.dismiss()
         }
     }
 
-    fun setOnConfirmationListener(callback: suspend ()->Unit) {
-        this.callback = callback
-    }
-
-    companion object {
-        fun newInstance(confirmationText : String) : ConfirmationDialogFragment {
-            val bundle = Bundle()
-            bundle.putString("confirmationText", confirmationText)
-            val fragment = ConfirmationDialogFragment()
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
+//    companion object {
+//        fun newInstance(confirmationText : String) : ConfirmationDialogFragment {
+//            val bundle = Bundle()
+//            bundle.putString("confirmationText", confirmationText)
+//            val fragment = ConfirmationDialogFragment(deletingRule:)
+//            fragment.arguments = bundle
+//            return fragment
+//        }
+//    }
 }

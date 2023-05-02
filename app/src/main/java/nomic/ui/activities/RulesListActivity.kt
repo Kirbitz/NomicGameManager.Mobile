@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import nomic.data.models.RuleRecyclerModel
 import nomic.mobile.R
 import nomic.mobile.databinding.RulesListBinding
+import nomic.ui.fragments.ConfirmationDialogFragment
 import nomic.ui.fragments.CreateAmendmentFragment
 import nomic.ui.fragments.CreateRuleFragment
 import nomic.ui.utils.AmendmentRecyclerAdapter
@@ -25,7 +26,8 @@ class RulesListActivity : AppCompatActivity(),
     RuleRecyclerAdapter.RuleClickListener,
     AmendmentRecyclerAdapter.AmendClickListener,
     CreateRuleFragment.SaveRuleListener,
-    CreateAmendmentFragment.SaveAmendRuleListener {
+    CreateAmendmentFragment.SaveAmendRuleListener,
+    ConfirmationDialogFragment.ConfirmClickListener {
     private lateinit var ruleRecycler: RecyclerView
     private lateinit var binding: RulesListBinding
     private lateinit var addRule: ImageButton
@@ -75,10 +77,9 @@ class RulesListActivity : AppCompatActivity(),
     }
 
     override fun deleteRule(ruleId: Int) {
-        lifecycleScope.launch {
-            rulesListViewModel.repealRule(ruleId)
-        }
-        Toast.makeText(this, "Rule Deleted", Toast.LENGTH_SHORT).show()
+        val confirmationDialogFragment = ConfirmationDialogFragment(true, ruleId)
+        confirmationDialogFragment.confirmClickListener = this
+        confirmationDialogFragment.show(supportFragmentManager, "confirmRule")
     }
 
     override fun createNewRule(index: Int, title: String, description: String) {
@@ -96,9 +97,22 @@ class RulesListActivity : AppCompatActivity(),
     }
 
     override fun deleteAmendment(amendId: Int) {
-        lifecycleScope.launch {
-            rulesListViewModel.repealAmendment(amendId)
+        val confirmationDialogFragment = ConfirmationDialogFragment(true, amendId)
+        confirmationDialogFragment.confirmClickListener = this
+        confirmationDialogFragment.show(supportFragmentManager, "confirmRule")
+    }
+
+    override fun confirmClick(deletingRule: Boolean, ruleAmendId: Int) {
+        if(deletingRule) {
+            lifecycleScope.launch {
+                rulesListViewModel.repealRule(ruleAmendId)
+            }
+            Toast.makeText(this, "Rule Deleted", Toast.LENGTH_SHORT).show()
+        } else {
+            lifecycleScope.launch {
+                rulesListViewModel.repealAmendment(ruleAmendId)
+            }
+            Toast.makeText(this, "Amendment Repealed", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(this, "Amendment Repealed", Toast.LENGTH_SHORT).show()
     }
 }
