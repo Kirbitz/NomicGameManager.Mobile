@@ -10,7 +10,7 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import nomic.mobile.databinding.ActivityMainBinding
+import nomic.mobile.databinding.MicPageBinding
 import java.util.*
 
 /**
@@ -42,7 +42,7 @@ class MicrophoneHandler : AppCompatActivity() {
     /**
      * Binding for activity_main xml
      */
-    private var _binding: ActivityMainBinding? = null
+    private var _binding: MicPageBinding? = null
     private val binding get() = _binding!!
 
     /**
@@ -50,7 +50,7 @@ class MicrophoneHandler : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = MicPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(applicationContext)
